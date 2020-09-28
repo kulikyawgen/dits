@@ -23,5 +23,5 @@ public class Link {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "literatureid")
-    private Literature literature;
+    private Literature literatureid;
 }
