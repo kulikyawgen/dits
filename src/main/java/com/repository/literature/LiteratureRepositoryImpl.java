@@ -4,7 +4,6 @@
 package com.repository.literature;
 
 import com.model.Literature;
-import com.model.Question;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
