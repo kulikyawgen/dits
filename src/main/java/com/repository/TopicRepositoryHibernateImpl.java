@@ -1,25 +1,41 @@
-package com.dao;
+package com.repository;
 
 import com.model.Topic;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
+
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
+@Transactional
 public class TopicRepositoryHibernateImpl implements TopicRepository {
-    @Override
-    public Topic create(Topic topic) {
-        return null;
+
+    private final SessionFactory sessionFactory;
+
+    public TopicRepositoryHibernateImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
-    public Topic update(Topic topic) {
-        return null;
+    public void create(Topic topic) {
+        sessionFactory.getCurrentSession().save(topic);
+    }
+
+    @Override
+    public void update(Topic topic) {
+        sessionFactory.getCurrentSession().update(topic);
     }
 
     @Override
     public Topic get(int id) {
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        Query<Topic> query = session.createQuery("from Topic where topicId=:id", Topic.class);
+        query.setParameter("id", id);
+        return query.getSingleResult();
     }
 
     @Override
@@ -28,12 +44,12 @@ public class TopicRepositoryHibernateImpl implements TopicRepository {
     }
 
     @Override
-    public Topic delete(int id) {
+    public void deleteById(int id) {
         return null;
     }
 
     @Override
-    public Topic delete(Topic topic) {
+    public void delete(Topic topic) {
         return null;
     }
 }
