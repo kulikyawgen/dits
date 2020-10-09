@@ -1,7 +1,6 @@
 package com.service;
 
-import com.domain.Static;
-import com.domain.User;
+import com.model.Static;
 import com.repository.StaticRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 

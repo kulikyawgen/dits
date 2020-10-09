@@ -1,6 +1,6 @@
 package com.service;
 
-import com.domain.Static;
+import com.model.Static;
 
 import java.util.Date;
 import java.util.List;
