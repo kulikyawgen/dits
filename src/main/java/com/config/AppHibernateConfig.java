@@ -23,10 +23,10 @@ import java.util.Properties;
 public class AppHibernateConfig {
 
     @Autowired
-     Environment environment;
+    Environment environment;
 
     @Bean
-    public DataSource getDataSource(){
+    public DataSource getDataSource() {
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setDriverClassName(environment.getProperty("driver"));
         ds.setUrl(environment.getProperty("url"));
@@ -35,9 +35,8 @@ public class AppHibernateConfig {
         return ds;
     }
 
-    private Properties getHibernateProperties(){
+    private Properties getHibernateProperties() {
         Properties hibernateProperties = new Properties();
-        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "update");
         hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
         hibernateProperties.setProperty("hibernate.show_sql", "true");
         hibernateProperties.setProperty("hibernate.format_sql", "true");
@@ -46,7 +45,7 @@ public class AppHibernateConfig {
     }
 
     @Bean
-    public LocalSessionFactoryBean getLocalSessionFactoryBean(){
+    public LocalSessionFactoryBean getLocalSessionFactoryBean() {
         LocalSessionFactoryBean localSessionFactoryBean = new LocalSessionFactoryBean();
         localSessionFactoryBean.setHibernateProperties(getHibernateProperties());
         localSessionFactoryBean.setPackagesToScan("com.model");
@@ -55,7 +54,7 @@ public class AppHibernateConfig {
     }
 
     @Bean
-    public PlatformTransactionManager transactionManager(){
+    public PlatformTransactionManager transactionManager() {
         HibernateTransactionManager hibernateTransactionManager = new HibernateTransactionManager();
         hibernateTransactionManager.setSessionFactory(getLocalSessionFactoryBean().getObject());
         return hibernateTransactionManager;
