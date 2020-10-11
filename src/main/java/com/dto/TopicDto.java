@@ -1,12 +1,13 @@
 package com.dto;
 
 import lombok.Data;
-import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Data
-@Component
 public class TopicDto {
-    private int id;
+    private int topicId;
     private String name;
     private String description;
+    public List<TestDto> tests;
 }

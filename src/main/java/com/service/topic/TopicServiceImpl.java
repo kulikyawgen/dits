@@ -10,6 +10,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.beans.Beans;
+
 @Service
 public class TopicServiceImpl implements TopicService {
 
@@ -23,7 +25,7 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public Topic update(Topic topic) {
-        return null;
+        return topicRepository.save(topic);
     }
 
     @Override

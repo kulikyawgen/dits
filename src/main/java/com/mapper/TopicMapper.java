@@ -3,10 +3,11 @@ package com.mapper;
 import com.dto.TopicDto;
 import com.model.Topic;
 import org.mapstruct.Mapper;
-import org.springframework.stereotype.Component;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
-@Component
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",
+        uses = TestMapper.class,
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface TopicMapper {
     Topic toTopic(TopicDto dto);
 
