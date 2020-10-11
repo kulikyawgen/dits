@@ -14,6 +14,4 @@ public interface TopicService {
     Page<Topic> getPage(int page, int size, String order, String... params);
 
     void deleteById(int id);
-
-    void delete(Topic topic);
 }

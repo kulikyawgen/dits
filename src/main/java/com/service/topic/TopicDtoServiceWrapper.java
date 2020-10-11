@@ -2,7 +2,6 @@ package com.service.topic;
 
 import com.dto.TopicDto;
 import com.mapper.TopicMapper;
-import com.model.Topic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -21,13 +20,19 @@ public class TopicDtoServiceWrapper {
         return topicService.getPage(page, size, order, params).map(topicMapper::toTopicDto);
     }
 
+    public TopicDto getOne(int id) {
+        return topicMapper.toTopicDto(topicService.getOne(id));
+    }
+
     public TopicDto create(TopicDto topic) {
         return topicMapper.toTopicDto(topicService.create(topicMapper.toTopic(topic)));
     }
 
     public TopicDto update(TopicDto topicDto) {
-        Topic topic = topicService.getOne(topicDto.getTopicId());
-        topic = topicMapper.toTopic(topicDto);
-        return topicMapper.toTopicDto(topic);
+        return topicMapper.toTopicDto(topicService.update(topicMapper.toTopic(topicDto)));
+    }
+
+    public void deleteById(int id) {
+        topicService.deleteById(id);
     }
 }

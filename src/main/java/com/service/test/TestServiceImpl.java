@@ -30,7 +30,7 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public Test getOne(int id) {
-        return testRepository.getOne(id);
+        return testRepository.findById(id).orElse(null);
     }
 
     @Override
