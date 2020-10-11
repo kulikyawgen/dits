@@ -1,7 +1,7 @@
 package com.service.statistic;
 
 import com.model.Static;
-import com.repository.StaticRepo;
+import com.repository.statistic.StaticRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
