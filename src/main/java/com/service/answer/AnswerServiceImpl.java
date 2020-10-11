@@ -4,33 +4,31 @@
 package com.service.answer;
 
 import com.model.Answer;
-import com.model.Question;
-import com.repository.AnswerRepository;
-import com.service.question.QuestionService;
+import com.repository.answer.AnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 @Service
+@Transactional
 public class AnswerServiceImpl implements AnswerService {
 
     private final AnswerRepository answerRepository;
-    private final QuestionService questionService;
 
     @Autowired
-    public AnswerServiceImpl(AnswerRepository answerRepository, QuestionService questionService) {
+    public AnswerServiceImpl(AnswerRepository answerRepository) {
         this.answerRepository = answerRepository;
-        this.questionService = questionService;
     }
 
     @Override
-    public void addAnswer(Answer newAnswer) {
-        answerRepository.save(newAnswer);
+    public Answer addAnswer(Answer newAnswer) {
+     return answerRepository.save(newAnswer);
     }
 
     @Override
-    public void deleteAnswerById(Long id) {
-        answerRepository.deleteById(id);
+    public void deleteAnswerById(int id) {
+        answerRepository.deleteAnswerById(id);
     }
 
     @Override
@@ -39,8 +37,8 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public Answer getAnswerById(Long id) {
-        return answerRepository.getOne(id);
+    public Answer getAnswerById(int id) {
+        return answerRepository.findAnswerById(id);
     }
 
     @Override
@@ -50,7 +48,11 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public List<Answer> getAllAnswersByQuestionId(int id) {
-        Question question = questionService.getOne(id);
-        return answerRepository.findByQuestionid(question);
+        return answerRepository.findAllAnswersByQuestionId(id);
+    }
+
+    @Override
+    public List<Answer> getTrueAnswersForQuestion(int id) {
+        return answerRepository.findTrueAnswersForQuestion(id);
     }
 }
