@@ -7,7 +7,7 @@ import com.model.Literature;
 
 import java.util.List;
 
-public interface LiteratureRepository {
+public interface LiteratureRepository  {
     void addLiterature(Literature newLiterature);
     void deleteLiteratureById(Long id);
     void updateLiterature(Literature updatedLiterature);

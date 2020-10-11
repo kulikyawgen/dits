@@ -47,7 +47,7 @@ public class AnswerRepositoryImpl implements AnswerRepository {
     @Override
     public Answer findAnswerById(Long id) {
         Session session = sessionFactory.getCurrentSession();
-        Query<Answer> query = session.createQuery("from Answer where answerid=:id");
+        Query<Answer> query = session.createQuery("from Answer where answerId=:id");
         query.setParameter("id",id);
         return query.getSingleResult();
     }

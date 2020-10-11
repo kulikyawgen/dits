@@ -15,13 +15,14 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Link {
     @Id
+    @Column(name = "link_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long linkid;
+    private int linkId;
 
     @Column
     private String link;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "literatureid")
+    @JoinColumn(name = "literature_id")
     private Literature literatureid;
 }

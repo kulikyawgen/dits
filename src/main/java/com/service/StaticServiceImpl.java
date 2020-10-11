@@ -1,7 +1,7 @@
 package com.service;
 
 import com.model.Static;
-import com.repository.StaticRepo;
+import com.repository.statistic.StaticRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;

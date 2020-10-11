@@ -14,9 +14,11 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Answer {
+
     @Id
+    @Column(name = "answer_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long answerid;
+    private int answerId;
 
     @Column
     private String description;
@@ -25,6 +27,6 @@ public class Answer {
     private boolean correct;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "questionid")
+    @JoinColumn(name = "question_id")
     private Question questionid;
 }

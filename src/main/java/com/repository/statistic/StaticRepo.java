@@ -1,4 +1,4 @@
-package com.repository;
+package com.repository.statistic;
 
 import com.model.Static;
 import org.springframework.data.jpa.repository.JpaRepository;
