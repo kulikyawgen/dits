@@ -16,6 +16,4 @@ public interface TestService {
     Page<Test> getByTopic(int topicId, int page, int size, String order, String... params);
 
     void deleteById(int id);
-
-    void delete(Test test);
 }

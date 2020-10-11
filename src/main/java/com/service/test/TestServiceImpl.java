@@ -1,5 +1,6 @@
 package com.service.test;
 
+import com.mapper.TestMapper;
 import com.model.Test;
 import com.repository.TestRepository;
 import com.service.topic.TopicService;
@@ -8,15 +9,19 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
+@Transactional
 public class TestServiceImpl implements TestService {
 
     @Autowired
     private TestRepository testRepository;
     @Autowired
     private TopicService topicService;
+    @Autowired
+    private TestMapper testMapper;
 
     @Override
     public Test create(Test test) {
@@ -25,12 +30,14 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public Test update(Test test) {
-        return null;
+        Test fromDB = getOne(test.getTestId());
+        testMapper.update(test, fromDB);
+        return testRepository.save(fromDB);
     }
 
     @Override
     public Test getOne(int id) {
-        return testRepository.findById(id).orElse(null);
+        return testRepository.findById(id).orElse(new Test());
     }
 
     @Override
@@ -48,11 +55,6 @@ public class TestServiceImpl implements TestService {
     @Override
     public void deleteById(int id) {
         testRepository.deleteById(id);
-    }
-
-    @Override
-    public void delete(Test test) {
-        testRepository.delete(test);
     }
 
     private PageRequest createPageRequest(int page, int size, String order, String... params) {
