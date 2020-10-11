@@ -13,5 +13,5 @@ public interface LinkService {
     void updateLink(Link updatedLink);
     Link getLinkById(Long id);
     List<Link> getAllLink();
-    List<Link> getAllLinkByQuestionId(Long id);
+//    List<Link> getAllLinkByQuestionId(Long id);
 }

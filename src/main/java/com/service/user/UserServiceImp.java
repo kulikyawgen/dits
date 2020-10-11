@@ -1,4 +1,4 @@
-package com.service;
+package com.service.user;
 
 import com.model.User;
 import com.repository.UserRepo;
@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 public class UserServiceImp implements UserService{
     @Autowired
     private UserRepo userRepo;
+
     @Override
     public User findByLogin(String login) {
-        User byLogin = userRepo.findByLogin(login);
-        return byLogin;
+        return userRepo.findByLogin(login);
     }
 }

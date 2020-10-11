@@ -11,6 +11,7 @@ public class Test {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "test_id")
     private int testId;
     private String name;
     private String description;
