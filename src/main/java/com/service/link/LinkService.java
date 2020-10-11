@@ -8,10 +8,10 @@ import com.model.Link;
 import java.util.List;
 
 public interface LinkService {
-    void addLink(Link newLink);
-    void deleteLinkById(Long id);
+    Link addLink(Link newLink);
+    void deleteLinkById(int id);
     void updateLink(Link updatedLink);
-    Link getLinkById(Long id);
+    Link getLinkById(int id);
     List<Link> getAllLink();
-    List<Link> getAllLinkByQuestionId(Long id);
+    List<Link> getAllLinkByLiteratureId(int id);
 }

@@ -4,14 +4,21 @@
 package com.repository.link;
 
 import com.model.Link;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface LinkRepository {
-    void addLink(Link newLink);
-    void deleteLinkById(Long id);
-    void updateLink(Link updatedLink);
-    Link findLinkById(Long id);
-    List<Link> findAllLink();
-    List<Link> findAllLinkByQuestionId(Long id);
+@Repository
+public interface LinkRepository extends JpaRepository<Link,Integer> {
+
+    @Query("delete from Link where linkId=?1")
+    void deleteLinkById(int id);
+
+    @Query("from Link where linkId=?1")
+    Link findLinkById(int id);
+
+    @Query("from Link where literatureid=?1")
+    List<Link> findAllLinkByLiteratureId(int id);
 }

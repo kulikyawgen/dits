@@ -22,33 +22,32 @@ public class LiteratureServiceImpl implements LiteratureService {
 
 
     @Override
-    public void addLiterature(Literature newLiterature) {
-        literatureRepository.addLiterature(newLiterature);
-
+    public Literature addLiterature(Literature newLiterature) {
+        return literatureRepository.save(newLiterature);
     }
 
     @Override
-    public void deleteLiteratureById(Long id) {
+    public void deleteLiteratureById(int id) {
         literatureRepository.deleteLiteratureById(id);
     }
 
     @Override
     public void updateLiterature(Literature updatedLiterature) {
-        literatureRepository.updateLiterature(updatedLiterature);
+        literatureRepository.save(updatedLiterature);
     }
 
     @Override
-    public Literature getLiteratureById(Long id) {
+    public Literature getLiteratureById(int id) {
         return literatureRepository.findLiteratureById(id);
     }
 
     @Override
     public List<Literature> getAllLiterature() {
-        return literatureRepository.findAllLiterature();
+        return literatureRepository.findAll();
     }
 
     @Override
-    public List<Literature> getAllLiteratureByQuestionId(Long id) {
+    public List<Literature> getAllLiteratureByQuestionId(int id) {
         return literatureRepository.findAllLiteratureByQuestionId(id);
     }
 }

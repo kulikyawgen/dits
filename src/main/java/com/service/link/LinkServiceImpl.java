@@ -22,32 +22,32 @@ public class LinkServiceImpl implements LinkService {
     }
 
     @Override
-    public void addLink(Link newLink) {
-        linkRepository.addLink(newLink);
+    public Link addLink(Link newLink) {
+        return linkRepository.save(newLink);
     }
 
     @Override
-    public void deleteLinkById(Long id) {
+    public void deleteLinkById(int id) {
         linkRepository.deleteLinkById(id);
     }
 
     @Override
     public void updateLink(Link updatedLink) {
-        linkRepository.updateLink(updatedLink);
+        linkRepository.save(updatedLink);
     }
 
     @Override
-    public Link getLinkById(Long id) {
+    public Link getLinkById(int id) {
         return linkRepository.findLinkById(id);
     }
 
     @Override
     public List<Link> getAllLink() {
-        return linkRepository.findAllLink();
+        return linkRepository.findAll();
     }
 
     @Override
-    public List<Link> getAllLinkByQuestionId(Long id) {
-        return linkRepository.findAllLinkByQuestionId(id);
+    public List<Link> getAllLinkByLiteratureId(int id) {
+        return linkRepository.findAllLinkByLiteratureId(id);
     }
 }

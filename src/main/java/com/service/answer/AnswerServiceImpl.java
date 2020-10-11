@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 @Service
+@Transactional
 public class AnswerServiceImpl implements AnswerService {
 
     private final AnswerRepository answerRepository;
@@ -21,32 +22,37 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public void addAnswer(Answer newAnswer) {
-        answerRepository.addAnswer(newAnswer);
+    public Answer addAnswer(Answer newAnswer) {
+     return answerRepository.save(newAnswer);
     }
 
     @Override
-    public void deleteAnswerById(Long id) {
+    public void deleteAnswerById(int id) {
         answerRepository.deleteAnswerById(id);
     }
 
     @Override
     public void updateAnswer(Answer updatedAnswer) {
-        answerRepository.updateAnswer(updatedAnswer);
+        answerRepository.save(updatedAnswer);
     }
 
     @Override
-    public Answer getAnswerById(Long id) {
+    public Answer getAnswerById(int id) {
         return answerRepository.findAnswerById(id);
     }
 
     @Override
     public List<Answer> getAllAnswers() {
-        return answerRepository.findAllAnswers();
+        return answerRepository.findAll();
     }
 
     @Override
-    public List<Answer> getAllAnswersByQuestionId(Long id) {
+    public List<Answer> getAllAnswersByQuestionId(int id) {
         return answerRepository.findAllAnswersByQuestionId(id);
+    }
+
+    @Override
+    public List<Answer> getTrueAnswersForQuestion(int id) {
+        return answerRepository.findTrueAnswersForQuestion(id);
     }
 }
