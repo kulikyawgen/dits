@@ -13,7 +13,7 @@ public interface QuestionService {
 
     Page<Question> getPage(int page, int size, String order, String... params);
 
-    Page<Question> getByTopic(int testId, int page, int size, String order, String... params);
+    Page<Question> getByTest(int testId, int page, int size, String order, String... params);
 
     void deleteById(int id);
 
