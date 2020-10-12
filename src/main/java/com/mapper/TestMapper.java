@@ -18,15 +18,18 @@ public interface TestMapper {
     @Mapping(source = "topic", target = "topicId")
     TestDto toTestDto(Test entity);
 
-    void update(TestDto from, @MappingTarget Test test);
+    void update(TestDto from, @MappingTarget Test to);
 
-    void update(Test from, @MappingTarget Test test);
+    void update(Test from, @MappingTarget Test to);
 
     default int toDto(Topic topic) {
         return topic.getTopicId();
     }
 
     default Topic toEntity(int topicId) {
+        if (topicId == 0) {
+            return null;
+        }
         Topic topic = new Topic();
         topic.setTopicId(topicId);
         return topic;

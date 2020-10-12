@@ -27,6 +27,9 @@ public interface AnswerMapper {
     }
 
     default Question toEntity(int questionId) {
+        if (questionId == 0) {
+            return null;
+        }
         Question question = new Question();
         question.setQuestionId(questionId);
         return question;

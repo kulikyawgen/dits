@@ -27,6 +27,9 @@ public interface QuestionMapper {
     }
 
     default Test toEntity(int testId) {
+        if (testId == 0) {
+            return null;
+        }
         Test test = new Test();
         test.setTestId(testId);
         return test;
