@@ -2,6 +2,7 @@ package com.service.test;
 
 import com.mapper.TestMapper;
 import com.model.Test;
+import com.model.Topic;
 import com.repository.TestRepository;
 import com.service.topic.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public Test create(Test test) {
+        test.setTestId(0);
+        Topic parent = topicService.getOne(test.getTopic().getTopicId());
+        parent.addTest(test);
         return testRepository.save(test);
     }
 
@@ -37,7 +41,7 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public Test getOne(int id) {
-        return testRepository.findById(id).orElse(new Test());
+        return testRepository.findById(id).orElse(null);
     }
 
     @Override
