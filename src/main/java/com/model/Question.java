@@ -3,6 +3,7 @@ package com.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -16,4 +17,6 @@ public class Question {
     @ManyToOne
     @JoinColumn(name = "test_id")
     private Test test;
+    @OneToMany(mappedBy = "questionid")
+    private List<Answer> answers;
 }

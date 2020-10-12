@@ -4,15 +4,18 @@ import com.dto.QuestionDto;
 import com.model.Question;
 import com.model.Test;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring",
+        uses = AnswerMapper.class,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface QuestionMapper {
-
+    @Mapping(source = "testId", target = "test")
     Question toQuestion(QuestionDto dto);
 
+    @Mapping(source = "test", target = "testId")
     QuestionDto toQuestionDto(Question entity);
 
     void update(QuestionDto from, @MappingTarget Question to);
