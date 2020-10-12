@@ -4,7 +4,9 @@
 package com.service.answer;
 
 import com.model.Answer;
+import com.model.Question;
 import com.repository.AnswerRepository;
+import com.service.question.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +15,12 @@ import java.util.List;
 public class AnswerServiceImpl implements AnswerService {
 
     private final AnswerRepository answerRepository;
+    private final QuestionService questionService;
 
     @Autowired
-    public AnswerServiceImpl(AnswerRepository answerRepository) {
+    public AnswerServiceImpl(AnswerRepository answerRepository, QuestionService questionService) {
         this.answerRepository = answerRepository;
+        this.questionService = questionService;
     }
 
     @Override
@@ -44,8 +48,9 @@ public class AnswerServiceImpl implements AnswerService {
         return answerRepository.findAll();
     }
 
-//    @Override
-//    public List<Answer> getAllAnswersByQuestionId(Long id) {
-//        return answerRepository.findAllAnswersByQuestionId(id);
-//    }
+    @Override
+    public List<Answer> getAllAnswersByQuestionId(int id) {
+        Question question = questionService.getOne(id);
+        return answerRepository.findByQuestionid(question);
+    }
 }
