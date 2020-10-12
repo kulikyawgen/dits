@@ -21,7 +21,7 @@ public class TestDtoServiceWrapper {
     }
 
     public TestDto update(TestDto test) {
-        return testMapper.toTestDto(testService.create(testMapper.toTest(test)));
+        return testMapper.toTestDto(testService.update(testMapper.toTest(test)));
     }
 
     public TestDto getOne(int id) {
