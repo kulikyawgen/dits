@@ -20,4 +20,9 @@ public class Test {
     private Topic topic;
     @OneToMany(mappedBy = "test", cascade = CascadeType.REMOVE)
     private List<Question> questions;
+
+    public void addQuestion(Question question) {
+        question.setTest(this);
+        this.questions.add(question);
+    }
 }

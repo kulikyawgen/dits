@@ -19,4 +19,9 @@ public class Question {
     private Test test;
     @OneToMany(mappedBy = "questionid", cascade = CascadeType.REMOVE)
     private List<Answer> answers;
+
+    public void addAnswer(Answer answer) {
+        answer.setQuestionid(this);
+        this.answers.add(answer);
+    }
 }
