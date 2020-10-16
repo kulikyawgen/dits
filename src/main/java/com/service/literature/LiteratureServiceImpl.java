@@ -4,10 +4,11 @@
 package com.service.literature;
 
 import com.model.Literature;
-import com.repository.LiteratureRepository;
+import com.repository.literature.LiteratureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -21,14 +22,13 @@ public class LiteratureServiceImpl implements LiteratureService {
 
 
     @Override
-    public void addLiterature(Literature newLiterature) {
-        literatureRepository.save(newLiterature);
-
+    public Literature addLiterature(Literature newLiterature) {
+        return literatureRepository.save(newLiterature);
     }
 
     @Override
-    public void deleteLiteratureById(Long id) {
-        literatureRepository.deleteById(id);
+    public void deleteLiteratureById(int id) {
+        literatureRepository.deleteLiteratureById(id);
     }
 
     @Override
@@ -37,8 +37,8 @@ public class LiteratureServiceImpl implements LiteratureService {
     }
 
     @Override
-    public Literature getLiteratureById(Long id) {
-        return literatureRepository.getOne(id);
+    public Literature getLiteratureById(int id) {
+        return literatureRepository.findLiteratureById(id);
     }
 
     @Override
@@ -46,8 +46,8 @@ public class LiteratureServiceImpl implements LiteratureService {
         return literatureRepository.findAll();
     }
 
-//    @Override
-//    public List<Literature> getAllLiteratureByQuestionId(Long id) {
-//        return literatureRepository.findAllLiteratureByQuestionId(id);
-//    }
+    @Override
+    public List<Literature> getAllLiteratureByQuestionId(int id) {
+        return literatureRepository.findAllLiteratureByQuestionId(id);
+    }
 }

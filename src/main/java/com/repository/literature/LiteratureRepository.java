@@ -4,14 +4,21 @@
 package com.repository.literature;
 
 import com.model.Literature;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface LiteratureRepository  {
-    void addLiterature(Literature newLiterature);
-    void deleteLiteratureById(Long id);
-    void updateLiterature(Literature updatedLiterature);
-    Literature findLiteratureById(Long id);
-    List<Literature> findAllLiterature();
-    List<Literature> findAllLiteratureByQuestionId(Long id);
+@Repository
+public interface LiteratureRepository extends JpaRepository<Literature,Integer> {
+
+    @Query("delete from Literature where literatureId=?1")
+    void deleteLiteratureById(int id);
+
+    @Query("from Literature where literatureId=?1")
+    Literature findLiteratureById(int id);
+
+    @Query("from Literature where questionid=?1 ")
+    List<Literature> findAllLiteratureByQuestionId(int id);
 }
