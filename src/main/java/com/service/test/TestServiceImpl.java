@@ -3,7 +3,7 @@ package com.service.test;
 import com.mapper.TestMapper;
 import com.model.Test;
 import com.model.Topic;
-import com.repository.TestRepository;
+import com.repository.test.TestRepository;
 import com.service.topic.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

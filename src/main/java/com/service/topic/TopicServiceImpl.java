@@ -2,7 +2,7 @@ package com.service.topic;
 
 import com.mapper.TopicMapper;
 import com.model.Topic;
-import com.repository.TopicRepository;
+import com.repository.topic.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

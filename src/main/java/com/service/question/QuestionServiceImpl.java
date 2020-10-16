@@ -2,7 +2,7 @@ package com.service.question;
 
 import com.mapper.QuestionMapper;
 import com.model.Question;
-import com.repository.QuestionRepository;
+import com.repository.question.QuestionRepository;
 import com.service.test.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
