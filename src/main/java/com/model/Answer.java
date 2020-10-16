@@ -26,7 +26,7 @@ public class Answer {
     @Column
     private boolean correct;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "question_id")
     private Question questionid;
 }
