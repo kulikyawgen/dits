@@ -20,23 +20,27 @@ public class LiteratureRestController {
         this.literatureService = literatureService;
     }
 
-    @PutMapping(value = "/")
+    @PostMapping(value = "/")
     public Literature addLiterature(@RequestBody Literature literature){
         return literatureService.addLiterature(literature);
     }
-    @DeleteMapping(value = "/{id}")
+
+    @GetMapping(value = "/delete/{id}")
     public void deleteLiterature(@PathVariable int id){
         literatureService.deleteLiteratureById(id);
     }
+
     @GetMapping(value = "/")
     public List<Literature> getAllLiterature(){
         return literatureService.getAllLiterature();
     }
-    @PostMapping(value = "/{id}")
+
+    @GetMapping(value = "/{id}")
     public Literature getLiteratureById(@PathVariable int id){
         return literatureService.getLiteratureById(id);
     }
-    @PostMapping(value = "/byquestion/{id}")
+
+    @GetMapping(value = "/byquestion/{id}")
     public List<Literature> getLiteratureForQuestion(@PathVariable int id){
         return literatureService.getAllLiteratureByQuestionId(id);
     }

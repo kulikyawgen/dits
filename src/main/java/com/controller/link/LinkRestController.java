@@ -21,12 +21,12 @@ public class LinkRestController {
         this.linkService = linkService;
     }
 
-    @PutMapping(value = "/")
+    @PostMapping(value = "/")
     public Link addLink(@RequestBody Link link){
         return linkService.addLink(link);
     }
 
-    @DeleteMapping(value = "/{id}")
+    @GetMapping(value = "/delete/{id}")
     public void deteleLink(@PathVariable int id){
         linkService.deleteLinkById(id);
     }
@@ -36,12 +36,12 @@ public class LinkRestController {
         return linkService.getAllLink();
     }
 
-    @PostMapping(value = "/{id}")
+    @GetMapping(value = "/{id}")
     public Link getLinkById(@PathVariable int id){
         return linkService.getLinkById(id);
     }
 
-    @PostMapping(value = "/byanswer/{id}")
+    @GetMapping(value = "/byanswer/{id}")
     public List<Link> getLinkByAnswer(@PathVariable int id){
         return linkService.getAllLinkByLiteratureId(id);
     }
