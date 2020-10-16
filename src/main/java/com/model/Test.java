@@ -18,6 +18,11 @@ public class Test {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "topic_id")
     private Topic topic;
-    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "test", cascade = CascadeType.REMOVE)
     private List<Question> questions;
+
+    public void addQuestion(Question question) {
+        question.setTest(this);
+        this.questions.add(question);
+    }
 }

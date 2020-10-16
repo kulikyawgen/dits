@@ -1,4 +1,4 @@
-package com.repository;
+package com.repository.topic;
 
 import com.model.Topic;
 import org.springframework.data.domain.Page;

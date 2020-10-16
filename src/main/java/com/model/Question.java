@@ -17,6 +17,11 @@ public class Question {
     @ManyToOne
     @JoinColumn(name = "test_id")
     private Test test;
-    @OneToMany(mappedBy = "questionid")
+    @OneToMany(mappedBy = "questionid", cascade = CascadeType.REMOVE)
     private List<Answer> answers;
+
+    public void addAnswer(Answer answer) {
+        answer.setQuestionid(this);
+        this.answers.add(answer);
+    }
 }
