@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Date;
 import java.util.List;
 @Repository
-public interface StaticRepo extends JpaRepository<Static, Long> {
+public interface StaticRepo extends JpaRepository<Static, Integer> {
     @Query("select s from Static s where s.date = :date")
     List<Static> getAllByDate(Date date);
 }

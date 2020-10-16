@@ -21,26 +21,26 @@ public class AnswerRestController {
         this.answerService = answerService;
     }
 
-    @PutMapping(value = "/")
+    @PostMapping(value = "/")
     public Answer putAnswer(@RequestBody Answer answer){
         return answerService.addAnswer(answer);
     }
 
-    @DeleteMapping(value = "/{id}")
+    @GetMapping(value = "/delete/{id}")
     public void deleteAnswer(@PathVariable int id){
         answerService.deleteAnswerById(id);
     }
 
-    @PostMapping(value = "/handler/{id}")
+    @GetMapping(value = "/handler/{id}")
     public Answer getAnswerById(@PathVariable int id){
         return answerService.getAnswerById(id);
     }
 
-    @PostMapping(value = "/all/{id}")
+    @GetMapping(value = "/all/{id}")
     public List<Answer> getAnswersForQuestion(@PathVariable int id){
         return answerService.getAllAnswersByQuestionId(id);
     }
-    @PostMapping(value = "/true/{id}")
+    @GetMapping(value = "/true/{id}")
     public List<Answer> getTrueAnswersForQuestion(@PathVariable int id){
         return answerService.getTrueAnswersForQuestion(id);
     }
