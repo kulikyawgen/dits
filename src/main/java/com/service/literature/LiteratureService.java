@@ -8,10 +8,14 @@ import com.model.Literature;
 import java.util.List;
 
 public interface LiteratureService {
-    Literature addLiterature(Literature newLiterature);
-    void deleteLiteratureById(int id);
+    void addLiterature(Literature newLiterature);
+
+    void deleteLiteratureById(Long id);
+
     void updateLiterature(Literature updatedLiterature);
-    Literature getLiteratureById(int id);
+
+    Literature getLiteratureById(Long id);
+
     List<Literature> getAllLiterature();
-    List<Literature> getAllLiteratureByQuestionId(int id);
+//    List<Literature> getAllLiteratureByQuestionId(Long id);
 }

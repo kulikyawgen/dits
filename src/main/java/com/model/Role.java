@@ -1,13 +1,18 @@
 package com.model;
 
-import org.springframework.security.core.GrantedAuthority;
+import lombok.Data;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
-  public enum Role implements GrantedAuthority {
-    USER, ADMIN, MANAGER;
-
-    @Override
-    public String getAuthority() {
-        return name();
-    }
+@Entity
+@Data
+public class Role {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int role_id;
+    private String name;
+    @ManyToMany(mappedBy = "roles")
+    private List<User> users = new ArrayList<>();
 }

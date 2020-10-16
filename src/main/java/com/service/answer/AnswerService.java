@@ -8,11 +8,15 @@ import com.model.Answer;
 import java.util.List;
 
 public interface AnswerService {
-    Answer addAnswer(Answer newAnswer);
-    void deleteAnswerById(int id);
+    void addAnswer(Answer newAnswer);
+
+    void deleteAnswerById(Long id);
+
     void updateAnswer(Answer updatedAnswer);
-    Answer getAnswerById(int id);
+
+    Answer getAnswerById(Long id);
+
     List<Answer> getAllAnswers();
+
     List<Answer> getAllAnswersByQuestionId(int id);
-    List<Answer> getTrueAnswersForQuestion(int id);
 }

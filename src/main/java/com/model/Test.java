@@ -11,10 +11,11 @@ public class Test {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "test_id")
     private int testId;
     private String name;
     private String description;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "topic_id")
     private Topic topic;
     @OneToMany(mappedBy = "test", cascade = CascadeType.ALL)

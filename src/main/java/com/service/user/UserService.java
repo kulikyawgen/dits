@@ -1,4 +1,4 @@
-package com.service;
+package com.service.user;
 
 import com.model.User;
 
