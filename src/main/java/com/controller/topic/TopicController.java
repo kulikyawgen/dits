@@ -25,7 +25,7 @@ public class TopicController {
                                 @RequestParam(required = false, defaultValue = "7") int size,
                                 @RequestParam(required = false, defaultValue = "ASC") String order,
                                 @RequestParam(required = false, defaultValue = "name") String... params) {
-        ModelAndView mav = new ModelAndView("topic");
+        ModelAndView mav = new ModelAndView("topic/topics_select");
         mav.addObject("topics", topicService.getPage(page, size, order, params));
         return mav;
     }
