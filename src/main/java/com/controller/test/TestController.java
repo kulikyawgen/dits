@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/test")
@@ -20,12 +21,13 @@ public class TestController {
     }
 
     @GetMapping
-    public Model getPage(Model model,
-                         @RequestParam(required = false, defaultValue = "0") int page,
-                         @RequestParam(required = false, defaultValue = "7") int size,
-                         @RequestParam(required = false, defaultValue = "ASC") String order,
-                         @RequestParam(required = false, defaultValue = "name") String... params) {
-        return model.addAttribute("tests", testService.getPage(page, size, order, params));
+    public ModelAndView getPage(@RequestParam(required = false, defaultValue = "0") int page,
+                                @RequestParam(required = false, defaultValue = "7") int size,
+                                @RequestParam(required = false, defaultValue = "ASC") String order,
+                                @RequestParam(required = false, defaultValue = "name") String... params) {
+        ModelAndView mav = new ModelAndView("test");
+        mav.addObject("tests", testService.getPage(page, size, order, params));
+        return mav;
     }
 
     @GetMapping("/topic")
@@ -43,12 +45,12 @@ public class TestController {
         return model.addAttribute("newTest", testService.create(test));
     }
 
-    @PatchMapping
+    @PostMapping("/update")
     public Model update(@RequestBody Test test, Model model) {
         return model.addAttribute(testService.update(test));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteById(@PathVariable int id) {
         testService.deleteById(id);
     }
