@@ -44,8 +44,8 @@ public class TestController {
 
     @GetMapping("/all")
     public ModelAndView getAll() {
-        ModelAndView mav = new ModelAndView("test");
-        mav.addObject("tests", testService.getPage(0, 100, "ASC", "test_id").getContent());
+        ModelAndView mav = new ModelAndView("testsEdit");
+        mav.addObject("tests", testService.getPage(0, 100, "ASC", "testId").getContent());
         return mav;
     }
 
