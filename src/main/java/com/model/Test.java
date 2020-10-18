@@ -15,7 +15,7 @@ public class Test {
     private int testId;
     private String name;
     private String description;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "topic_id")
     private Topic topic;
     @OneToMany(mappedBy = "test", cascade = CascadeType.REMOVE)
