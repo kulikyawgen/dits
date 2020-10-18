@@ -59,7 +59,8 @@ public class QuestionController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteById(@PathVariable int id) {
+    public String deleteById(@PathVariable int id) {
         questionService.deleteById(id);
+        return "question";
     }
 }

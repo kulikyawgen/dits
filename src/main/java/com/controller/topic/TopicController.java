@@ -4,7 +4,6 @@ import com.model.Topic;
 import com.service.topic.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -16,8 +15,10 @@ public class TopicController {
     private TopicService topicService;
 
     @GetMapping("{id}")
-    public Model getOne(@PathVariable int id, Model model) {
-        return model.addAttribute("topic", topicService.getOne(id));
+    public ModelAndView getOne(@PathVariable int id) {
+        ModelAndView mav = new ModelAndView("topic/topics_select");
+        mav.addObject("topic", topicService.getOne(id));
+        return mav;
     }
 
     @GetMapping
@@ -31,17 +32,22 @@ public class TopicController {
     }
 
     @PostMapping
-    public Model create(@RequestBody Topic topic, Model model) {
-        return model.addAttribute("newTopic", topicService.create(topic));
+    public ModelAndView create(@RequestBody Topic topic) {
+        ModelAndView mav = new ModelAndView("topic/topics_select");
+        mav.addObject("newTopic", topicService.create(topic));
+        return mav;
     }
 
     @PostMapping("/update")
-    public Model update(@RequestBody Topic topic, Model model) {
-        return model.addAttribute("updatedTopic", topicService.update(topic));
+    public ModelAndView update(@RequestBody Topic topic) {
+        ModelAndView mav = new ModelAndView("topic/topics_select");
+        mav.addObject("updatedTopic", topicService.update(topic));
+        return mav;
     }
 
     @GetMapping("/delete/{id}")
-    public void deleteById(@PathVariable int id) {
+    public String deleteById(@PathVariable int id) {
         topicService.deleteById(id);
+        return "topic/topics_select";
     }
 }
