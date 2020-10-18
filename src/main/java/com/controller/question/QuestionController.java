@@ -4,7 +4,6 @@ import com.model.Question;
 import com.service.question.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -16,8 +15,10 @@ public class QuestionController {
     private QuestionService questionService;
 
     @GetMapping("{id}")
-    public Model getOne(@PathVariable int id, Model model) {
-        return model.addAttribute("question", questionService.getOne(id));
+    public ModelAndView getOne(@PathVariable int id) {
+        ModelAndView mav = new ModelAndView("question");
+        mav.addObject("question", questionService.getOne(id));
+        return mav;
     }
 
     @GetMapping
@@ -31,24 +32,30 @@ public class QuestionController {
     }
 
     @GetMapping("/test")
-    public Model getByTests(Model model,
-                            @RequestParam int id,
-                            @RequestParam(required = false, defaultValue = "0") int page,
-                            @RequestParam(required = false, defaultValue = "7") int size,
-                            @RequestParam(required = false, defaultValue = "ASC") String order,
-                            @RequestParam(required = false, defaultValue = "name") String... params) {
-        return model.addAttribute("questions", questionService.getByTest(id, page, size, order, params));
+    public ModelAndView getByTests(
+            @RequestParam int id,
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "7") int size,
+            @RequestParam(required = false, defaultValue = "ASC") String order,
+            @RequestParam(required = false, defaultValue = "name") String... params) {
+        ModelAndView mav = new ModelAndView("question");
+        mav.addObject("questions", questionService.getByTest(id, page, size, order, params));
+        return mav;
     }
 
 
     @PostMapping
-    public Model create(@RequestBody Question question, Model model) {
-        return model.addAttribute("newQuestion", questionService.create(question));
+    public ModelAndView create(@RequestBody Question question) {
+        ModelAndView mav = new ModelAndView("question");
+        mav.addObject("newQuestion", questionService.create(question));
+        return mav;
     }
 
     @PostMapping("/update")
-    public Model update(@RequestBody Question question, Model model) {
-        return model.addAttribute("updatedQuestion", questionService.update(question));
+    public ModelAndView update(@RequestBody Question question) {
+        ModelAndView mav = new ModelAndView("question");
+        mav.addObject("updatedQuestion", questionService.update(question));
+        return mav;
     }
 
     @DeleteMapping("/delete/{id}")
