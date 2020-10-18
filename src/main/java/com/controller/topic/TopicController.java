@@ -31,6 +31,14 @@ public class TopicController {
         return mav;
     }
 
+    @GetMapping("/all")
+    public ModelAndView getAll() {
+        ModelAndView mav = new ModelAndView("topic/topics_select");
+        mav.addObject("topics",
+                topicService.getPage(0, 100, "ASC", "topic_id").getContent());
+        return mav;
+    }
+
     @PostMapping
     public ModelAndView create(@RequestBody Topic topic) {
         ModelAndView mav = new ModelAndView("topic/topics_select");
