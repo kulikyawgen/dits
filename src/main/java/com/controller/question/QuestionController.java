@@ -43,6 +43,23 @@ public class QuestionController {
         return mav;
     }
 
+    @GetMapping("/all")
+    public ModelAndView getAll() {
+        ModelAndView mav = new ModelAndView("question");
+        mav.addObject("questions",
+                questionService.getPage(0, 100, "ASC", "questionId").getContent());
+        return mav;
+    }
+
+    @GetMapping("/test/all")
+    public ModelAndView getAllByTests(@RequestParam int id) {
+        ModelAndView mav = new ModelAndView("question");
+        mav.addObject("questions",
+                questionService.getByTest(id, 0, 100, "ASC", "questionId").getContent());
+        return mav;
+    }
+
+
 
     @PostMapping
     public ModelAndView create(@RequestBody Question question) {
