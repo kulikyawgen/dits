@@ -42,6 +42,20 @@ public class TestController {
         return mav;
     }
 
+    @GetMapping("/all")
+    public ModelAndView getAll() {
+        ModelAndView mav = new ModelAndView("test");
+        mav.addObject("tests", testService.getPage(0, 100, "ASC", "test_id").getContent());
+        return mav;
+    }
+
+    @GetMapping("/topic/all")
+    public ModelAndView findAllByTopic(@RequestParam int id) {
+        ModelAndView mav = new ModelAndView("test");
+        mav.addObject("tests", testService.getByTopic(id, 0, 100, "ASC", "test_id").getContent());
+        return mav;
+    }
+
     @PostMapping
     public ModelAndView create(@RequestBody Test test) {
         ModelAndView mav = new ModelAndView("test");
