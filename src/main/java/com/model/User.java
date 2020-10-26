@@ -14,8 +14,11 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_ID")
     private Long userId;
+    @Column(name = "first_Name")
     private String firstName;
+    @Column(name = "last_name")
     private String lastName;
     private String login;
     private String password;
@@ -24,5 +27,5 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private List<Role> roles;
+    private List<Role>  roles;
 }

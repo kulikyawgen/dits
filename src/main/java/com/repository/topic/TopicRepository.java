@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TopicRepository extends JpaRepository<Topic, Integer> {
     Page<Topic> findAll(Pageable pageable);
+
+    Topic findByName(String name);
 }
