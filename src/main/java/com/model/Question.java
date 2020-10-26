@@ -1,5 +1,6 @@
 package com.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,7 +18,8 @@ public class Question {
     @ManyToOne
     @JoinColumn(name = "test_id")
     private Test test;
-    @OneToMany(mappedBy = "questionid", cascade = CascadeType.REMOVE)
+
+    @OneToMany(mappedBy = "questionid", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Answer> answers;
 
     public void addAnswer(Answer answer) {
