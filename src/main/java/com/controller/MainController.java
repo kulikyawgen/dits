@@ -34,31 +34,11 @@ public class MainController {
     }
 
 
-    @GetMapping("/user")
+    @GetMapping("/")
     public String getIndexPage() {
-       return "user/indexUser";
+       return "/passingTest/indexUser";
     }
 
-    @GetMapping("/user/topics")
-    public String getTopics(Model model){
-        model.addAttribute("topics",topicService.getPage(0,7,"ASC","name"));
-        return "user/topicsUser";
-    }
-
-    @GetMapping("/user/tests/{id}")
-    public String getTests(Model model, @PathVariable int id){
-        model.addAttribute("test",testService.getByTopic(id,0,7,"ASC","name"));
-        return "user/preTestUser";
-    }
-
-    @GetMapping("/user/test/{id}")
-    public String preStartPage(Model model, @PathVariable int id){
-        Test test = testService.getOne(id);
-        Topic topic = topicService.getOne(test.getTopic().getTopicId());
-        model.addAttribute("test", test);
-        model.addAttribute("topic", topic);
-        return "/user/testStart";
-    }
     @GetMapping("/user/test_run/{id}/{quest_num}")
     public String questionsForTest(Model model, @PathVariable int id,@PathVariable int quest_num){
         Test test = testService.getOne(id);
@@ -66,12 +46,12 @@ public class MainController {
         try {
             answers = answerService.getAllAnswersByQuestionId(test.getQuestions().get(quest_num).getQuestionId());
         }catch (IndexOutOfBoundsException exception){
-            return "/user/finish";
+            return "/passingTest/finish";
         }
         model.addAttribute("test",test);
         model.addAttribute("question",test.getQuestions().get(quest_num));
         model.addAttribute("answers",answers);
         model.addAttribute("numOfQuestion",quest_num);
-        return "/user/runningTest";
+        return "/passingTest/runningTest";
     }
 }

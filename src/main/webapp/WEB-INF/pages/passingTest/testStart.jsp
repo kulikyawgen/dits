@@ -3,8 +3,6 @@
 <%@ page import="org.springframework.data.domain.Page" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.model.Question" %>
-<%@ page import="com.model.Test" %>
-<%@ page import="com.model.Answer" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%String title = "DITS";%>
 <html>
@@ -43,33 +41,18 @@
                  alt="logo">
         </div>
         <div class="col-sm-12 col-md-7 pl-4">
-                <h2>${test.name}</h2>
-                <%
-                    Test test = (Test) request.getAttribute("test");
-                    Question question= (Question) request.getAttribute("question");
-                    List<Answer> answers= (List<Answer>) request.getAttribute("answers");
-                    out.println("<p>"+question.getDescription()+"</p>");
-                    int i = 0;
-                    for (Answer answer : answers) {
-                        out.println("<input type=\"radio\" id=\"answer"+i+"\" name=\"answer\" value=\""+answer.getDescription()+"\">\n" +
-                                "<label for=\"answer"+i+"\">"+answer.getDescription()+"</label><br>");
-                        i++;
-                    }
-                %>
-            <button onclick="myFunction()">Next question</button>
+                <h2>${topic.name}</h2>
+                <h3>${test.name}</h3>
+                <p>${test.description}</p>
+                <p>You have 30 minutes for this test</p>
+                <button onclick="myFunction(${test.testId})" style="text-align: center">Let's start</button>
         </div>
     </div>
 </div>
 </body>
 <script>
-function myFunction() {
-    let answer = document.getElementsByName("answer");
-    for (var i=0; i<answer.length; i++){
-
-    }
-
-    var numOfQuestion = ${numOfQuestion}+1;
-    var url = "http://localhost:8081/dits_war/user/test_run/"+${test.testId} + "/"+numOfQuestion;
+function myFunction(id) {
+    var url = "http://localhost:8081/dits_war/passing/"+id;
     location.href=url;
 }
 </script>

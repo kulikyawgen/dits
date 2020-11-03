@@ -49,18 +49,14 @@
                     <th scope="col">Start</th>
                 </tr>
                 </thead>
-                <%
-                    Page<Topic> topicPage = (Page<Topic>) request.getAttribute("topics");
-                    List<Topic> topicList = topicPage.getContent();
-                    for (Topic topic : topicList) {
-                        out.println("<tr>");
-                        out.println("<th scope=\"row\">"+ topic.getTopicId() +"</th>");
-                        out.println("<td>"+ topic.getName() +"</td>");
-                        out.println("<td>"+ topic.getDescription() +"</td>");
-                        out.println("<td><button onclick=\"myFunction("+topic.getTopicId()+")\">Try your self</button></td>");
-                        out.println("</tr>");
-                    }
-                %>
+                <c:forEach var="topic" items="${topics}">
+                    <tr>
+                        <th scope="row"><c:out value="${topic.topicId}"/></th>
+                        <td><c:out value="${topic.name}"/></td>
+                        <td><c:out value="${topic.description}"/></td>
+                        <td><button onclick="myFunction(${topic.topicId})">Try your self</button> </td>
+                    </tr>
+                </c:forEach>
             </table>
 
         </div>
@@ -68,10 +64,9 @@
 </div>
 </body>
 <script>
-function myFunction(id) {
-    var url = "http://localhost:8081/dits_war/user/tests/"+id;
+function myFunction(topicId) {
+    var url = "http://localhost:8081/dits_war/test/all/"+topicId;
     location.href=url;
-
 }
 </script>
 </html>

@@ -19,6 +19,8 @@ public class Question {
     @JoinColumn(name = "test_id")
     private Test test;
 
+//    private boolean answered = false;
+
     @OneToMany(mappedBy = "questionid", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Answer> answers;
 

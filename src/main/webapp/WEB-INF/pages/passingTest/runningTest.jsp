@@ -3,6 +3,8 @@
 <%@ page import="org.springframework.data.domain.Page" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.model.Question" %>
+<%@ page import="com.model.Test" %>
+<%@ page import="com.model.Answer" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%String title = "DITS";%>
 <html>
@@ -17,9 +19,10 @@
     </title>
 </head>
 <body>
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
+<%--<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"--%>
+<%--        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"--%>
+<%--        crossorigin="anonymous"></script>--%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
         crossorigin="anonymous"></script>
@@ -41,20 +44,43 @@
                  alt="logo">
         </div>
         <div class="col-sm-12 col-md-7 pl-4">
-                <h2>${topic.name}</h2>
-                <h3>${test.name}</h3>
-                <p>${test.description}</p>
-                <p>You have 30 minutes for this test</p>
-                <button onclick="myFunction(${test.testId})" style="text-align: center">Let's start</button>
+            <p id="test">123</p>
+            <h2>${test.description}</h2>
+            <h4>${question.description}</h4>
+            <c:forEach items="${question.answers}" var="answer">
+                <input type="checkbox" id="${answer.answerId}" value="${answer.description}">
+            </c:forEach>
+            <button onclick="myFunction(${sessionScope.passingTest.testId})">Next question</button>
         </div>
     </div>
 </div>
 </body>
-<script>
-function myFunction(id) {
-    var url = "http://localhost:8081/dits_war/user/test_run/"+id+"/0";
-    location.href=url;
 
-}
+<script>
+
+    function myFunction(id) {
+        var answers = [0];
+        <c:forEach items="${question.answers}" var="answerJs">
+        var checkBox= $('#${answerJs.answerId}');
+        if(checkBox.checked=true){
+            answers.push(checkBox.val());
+        }
+        </c:forEach>
+        $.ajax({
+            type:"POST",
+            url:"http://localhost:8081/dits_war/statistic/",
+            data: {'answers': answers, 'questionId': ${question.questionId}},
+            success: function (data){
+                alert("GREAT!")
+            },
+            error:function (e) {
+                alert("Something wrong")
+                console.log(e.error());
+            }
+        })
+
+        var url = "http://localhost:8081/dits_war/passing/"+id;
+        location.href=url;
+    }
 </script>
 </html>

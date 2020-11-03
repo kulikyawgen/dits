@@ -1,8 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.model.Topic" %>
-<%@ page import="org.springframework.data.domain.Page" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.model.Test" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%String title = "DITS";%>
 <html>
@@ -41,37 +37,18 @@
                  alt="logo">
         </div>
         <div class="col-sm-12 col-md-7 pl-4">
-            <table class="table">
-                <thead class="thead-dark">
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Start</th>
-                </tr>
-                </thead>
-            <% Page<Test> testPage= (Page<Test>) request.getAttribute("test");
-                List<Test> tests = testPage.getContent();
-                for (Test test : tests) {
-                    out.println("<tr>");
-                    out.println("<th scope=\"row\">"+ test.getTestId() +"</th>");
-                    out.println("<td>"+ test.getName() +"</td>");
-                    out.println("<td>"+ test.getDescription() +"</td>");
-                    out.println("<td><button onclick=\"myFunction("+test.getTestId()+")\">Start the test</button></td>");
-                    out.println("</tr>");
-                }
-            %>
-            </table>
+            <div class="row m-2">
+                <div class="col-sm-12">
+                    <a href="<c:url value="/topic/all"/>" class="btn btn-primary text-light">Пройти тест</a>
+                </div>
+            </div>
+            <div class="row m-2">
+                <div class="col-sm-12">
+                    <a class="btn btn-primary text-light">Статистика</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 </body>
-<script>
-    function myFunction(id) {
-        var url = "http://localhost:8081/dits_war/user/test/"+id;
-        location.href=url;
-
-    }
-</script>
-
 </html>
