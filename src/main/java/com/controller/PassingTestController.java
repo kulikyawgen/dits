@@ -3,11 +3,12 @@
 */
 package com.controller;
 
-import com.dto.AnswerDto;
 import com.dto.QuestionDto;
 import com.model.Question;
+import com.model.Statistic;
 import com.model.Test;
 import com.service.answer.AnswerService;
+import com.service.statistic.StatisticService;
 import com.service.test.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,10 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/passing")
@@ -28,11 +26,13 @@ public class PassingTestController {
 
     private final TestService testService;
     private final AnswerService answerService;
+    private final StatisticService statisticService;
 
     @Autowired
-    public PassingTestController(TestService testService, AnswerService answerService) {
+    public PassingTestController(TestService testService, AnswerService answerService, StatisticService statisticService) {
         this.testService = testService;
         this.answerService = answerService;
+        this.statisticService = statisticService;
     }
 
     /**
@@ -58,13 +58,22 @@ public class PassingTestController {
                     continue;
                 }
                 model.addAttribute("question",questionDto);
-                questionDto.setAnswered(true);
                 break;
             }
        if(model.getAttribute("question") == null){
-           Map<Integer,List<String>> answers = (Map<Integer, List<String>>) session.getAttribute("answersMap");
+//        Saving all statistics from session to DB;
+          List<Statistic> statisticList = (List<Statistic>) session.getAttribute("statistics");
+           for (Statistic statistic : statisticList) {
+               statisticService.addStatistic(statistic);
+           }
+//           Cleaning attributes from session
+           session.removeAttribute("questions");
+           session.removeAttribute("passingTest");
+           session.removeAttribute("answersMap");
+           session.removeAttribute("startTime");
+           session.removeAttribute("statistics");
            return "/passingTest/finish";
-       };
+       }
         return "/passingTest/runningTest";
     }
 
@@ -90,5 +99,7 @@ public class PassingTestController {
         session.setAttribute("passingTest",test);
         session.setAttribute("answersMap",answersMap);
         session.setAttribute("userId", 21);
+        session.setAttribute("startTime",new Date(System.currentTimeMillis()));
+        session.setAttribute("statistics", new ArrayList<Statistic>());
     }
 }

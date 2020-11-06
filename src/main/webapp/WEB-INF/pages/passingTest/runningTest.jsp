@@ -44,11 +44,12 @@
                  alt="logo">
         </div>
         <div class="col-sm-12 col-md-7 pl-4">
-            <p id="test">123</p>
             <h2>${test.description}</h2>
             <h4>${question.description}</h4>
             <c:forEach items="${question.answers}" var="answer">
                 <input type="checkbox" id="${answer.answerId}" value="${answer.description}">
+                <label>${answer.description}</label>
+                <br>
             </c:forEach>
             <button onclick="myFunction(${sessionScope.passingTest.testId})">Next question</button>
         </div>
@@ -59,28 +60,32 @@
 <script>
 
     function myFunction(id) {
-        var answers = [0];
+        var answers = ['${question.questionId}'];
         <c:forEach items="${question.answers}" var="answerJs">
         var checkBox= $('#${answerJs.answerId}');
-        if(checkBox.checked=true){
+        if(checkBox[0].checked==true){
             answers.push(checkBox.val());
         }
         </c:forEach>
+        var url = "http://localhost:8081/dits_war/passing/"+id;
         $.ajax({
             type:"POST",
             url:"http://localhost:8081/dits_war/statistic/",
-            data: {'answers': answers, 'questionId': ${question.questionId}},
-            success: function (data){
-                alert("GREAT!")
+            data:JSON.stringify(answers),
+            contentType:"application/json",
+            success:function (data){
+               console.log(data)
+                location.href=url;
             },
             error:function (e) {
-                alert("Something wrong")
-                console.log(e.error());
+                console.log(e)
+                location.href=url;
             }
         })
 
-        var url = "http://localhost:8081/dits_war/passing/"+id;
-        location.href=url;
+
+
+
     }
 </script>
 </html>

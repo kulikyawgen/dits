@@ -42,4 +42,9 @@ public class StatisticServiceImpl implements StatisticService {
     public List<Statistic> getAllStatistic() {
         return staticRepo.findAll();
     }
+
+    @Override
+    public Statistic getStatisticByQuestionIdAndDate(int questionId, Date date) {
+        return staticRepo.getStatisticByQuestionIdAndDate(questionId,date);
+    }
 }

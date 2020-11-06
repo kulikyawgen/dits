@@ -12,7 +12,8 @@ public class Statistic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long staticId;
+    @Column(name = "statistic_id")
+    private int staticId;
     private Date date;
     private boolean correct;
     @ManyToOne

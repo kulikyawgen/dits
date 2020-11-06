@@ -45,7 +45,7 @@
         <div class="col-sm-12 col-md-7 pl-4">
                 <h1>Great! You've finished this test</h1>
 
-            <button>Go to main</button>
+            <button onclick="location.href=<c:url value="/"/>">Go to main</button>
         </div>
     </div>
 </div>
