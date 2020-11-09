@@ -53,10 +53,10 @@
                     <tr>
                         <th scope="row"><c:out value="${statistic.nameOfQuestion}"/></th>
                         <td>
-                            <c:if test="${statistic.correct = true}">
+                            <c:if test="${statistic.correct == true}">
                                 <c:out value="✓"/>
                             </c:if>
-                            <c:if test="${statistic.correct = false}">
+                            <c:if test="${statistic.correct == false}">
                                 <c:out value="✘"/>
                             </c:if>
                         </td>
