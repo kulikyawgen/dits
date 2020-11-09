@@ -13,5 +13,6 @@ public interface StatisticService {
     void updateStatistic(Statistic statistic);
     Statistic getStatisticById(int id);
     List<Statistic> getAllStatistic();
-    Statistic getStatisticByQuestionIdAndDate(int questionId,Date date);
+    List<Statistic> getStatisticByUserIdGroupByDate(int userId);
+    List<Statistic> getStatisticsByDateAndUserId(Date date,int userId);
 }

@@ -4,21 +4,25 @@
 package com.controller.staticstic;
 
 import com.dto.QuestionDto;
-import com.model.Answer;
-import com.model.Statistic;
+import com.model.*;
 import com.service.answer.AnswerService;
+import com.service.link.LinkService;
+import com.service.literature.LiteratureService;
 import com.service.question.QuestionService;
 import com.service.statistic.StatisticService;
 import com.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -29,13 +33,17 @@ public class StatisticRestController {
     private final QuestionService questionService;
     private final UserService userService;
     private final AnswerService answerService;
+    private final LiteratureService literatureService;
+    private final LinkService linkService;
 
     @Autowired
-    public StatisticRestController(StatisticService statisticService, QuestionService questionService, UserService userService, AnswerService answerService) {
+    public StatisticRestController(StatisticService statisticService, QuestionService questionService, UserService userService, AnswerService answerService, LiteratureService literatureService, LinkService linkService) {
         this.statisticService = statisticService;
         this.questionService = questionService;
         this.userService = userService;
         this.answerService = answerService;
+        this.literatureService = literatureService;
+        this.linkService = linkService;
     }
 
     /**
@@ -78,6 +86,9 @@ public class StatisticRestController {
             }
             return statistic;
     }
+
+
+
 
 
 

@@ -1,4 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.model.Topic" %>
+<%@ page import="org.springframework.data.domain.Page" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%String title = "DITS";%>
 <html>
@@ -37,19 +40,31 @@
                  alt="logo">
         </div>
         <div class="col-sm-12 col-md-7 pl-4">
-            <div class="row m-2">
-                <div class="col-sm-12">
-                    <a href="<c:url value="/topic/all"/>" class="btn btn-primary text-light">Пройти тест</a>
-                </div>
-            </div>
-            <div class="row m-2">
-                <div class="col-sm-12">
-<%--                    TODO userId security--%>
-                    <a href="<c:url value="/statistic/type"/>" class="btn btn-primary text-light">Статистика</a>
-                </div>
-            </div>
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">FIO</th>
+                    <th scope="col">Name of test</th>
+                    <th scope="col">Question</th>
+                    <th scope="col">Completed</th>
+                    <th scope="col">Percent</th>
+                </tr>
+                </thead>
+                <c:forEach var="statistic" items="${statistics}">
+                    <tr>
+                        <th scope="row"><c:out value="${statistic.fio}"/></th>
+                        <td><c:out value="${statistic.nameOfTest}"/> </td>
+                        <td><c:out value="${statistic.question}"/></td>
+                        <td><c:out value="${statistic.completed}"/></td>
+                        <td><c:out value="${statistic.percent}"/></td>
+                    </tr>
+                </c:forEach>
+            </table>
+            <button> Return </button>
+
         </div>
     </div>
 </div>
 </body>
+
 </html>

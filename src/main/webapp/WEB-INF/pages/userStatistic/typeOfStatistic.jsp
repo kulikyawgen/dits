@@ -39,13 +39,13 @@
         <div class="col-sm-12 col-md-7 pl-4">
             <div class="row m-2">
                 <div class="col-sm-12">
-                    <a href="<c:url value="/topic/all"/>" class="btn btn-primary text-light">Пройти тест</a>
+                    <a href="<c:url value="/statistic/"/>21" class="btn btn-primary text-light">By test</a>
                 </div>
             </div>
             <div class="row m-2">
                 <div class="col-sm-12">
 <%--                    TODO userId security--%>
-                    <a href="<c:url value="/statistic/type"/>" class="btn btn-primary text-light">Статистика</a>
+                    <a href="<c:url value="/statistic/users"/>" class="btn btn-primary text-light">By user</a>
                 </div>
             </div>
         </div>

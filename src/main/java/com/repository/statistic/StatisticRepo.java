@@ -13,6 +13,9 @@ public interface StatisticRepo extends JpaRepository<Statistic, Integer> {
     @Query("select s from Statistic s where s.date = :date")
     List<Statistic> getAllByDate(Date date);
 
-    @Query("from Statistic s where s.question.questionId=?1 and s.date=?2")
-    Statistic getStatisticByQuestionIdAndDate(int questionId,Date date);
+   @Query("from Statistic s where s.user.userId=?1 group by s.date")
+    List<Statistic> getStatisticByUserIdGroupByDate(int userId);
+
+   @Query("from Statistic s where s.date=?1 and s.user.userId=?2")
+   List<Statistic> getStatisticsByDateAndUserId(Date date,int userId);
 }

@@ -34,7 +34,7 @@ public class UserServiceImp implements UserService{
 
     @Override
     public User getUserById(Integer id) {
-        return userRepo.getOne(id);
+        return userRepo.getUserById(id);
     }
 
     @Override

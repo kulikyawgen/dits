@@ -44,7 +44,13 @@ public class StatisticServiceImpl implements StatisticService {
     }
 
     @Override
-    public Statistic getStatisticByQuestionIdAndDate(int questionId, Date date) {
-        return staticRepo.getStatisticByQuestionIdAndDate(questionId,date);
+    public List<Statistic> getStatisticByUserIdGroupByDate(int userId) {
+        return staticRepo.getStatisticByUserIdGroupByDate(userId);
     }
+
+    @Override
+    public List<Statistic> getStatisticsByDateAndUserId(Date date, int userId) {
+        return staticRepo.getStatisticsByDateAndUserId(date, userId);
+    }
+
 }

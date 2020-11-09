@@ -19,6 +19,6 @@ public interface LiteratureRepository extends JpaRepository<Literature,Integer> 
     @Query("from Literature where literatureId=?1")
     Literature findLiteratureById(int id);
 
-    @Query("from Literature where questionid=?1 ")
+    @Query("from Literature l where l.questionid.questionId=?1 ")
     List<Literature> findAllLiteratureByQuestionId(int id);
 }
