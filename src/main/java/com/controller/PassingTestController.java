@@ -70,9 +70,10 @@ public class PassingTestController {
            session.removeAttribute("questions");
            session.removeAttribute("passingTest");
            session.removeAttribute("answersMap");
-           session.removeAttribute("startTime");
-           session.removeAttribute("statistics");
-           return "/passingTest/finish";
+//           session.removeAttribute("startTime");
+//           session.removeAttribute("statistics");
+
+           return "redirect:/statistic/test/final";
        }
         return "/passingTest/runningTest";
     }

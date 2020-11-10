@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @Controller
@@ -80,19 +81,18 @@ public class StatisticController {
 
     /**
      *
-     * @param date
      * @param model
      * @return
      *
      * Данный метод принимает дату прохождения конкретного теста и передает на view модель статистики
      * с информацией о прохождении теста залогированным юзером;
      */
-    @GetMapping("/test/{date}")
-    public String getStatistic(@PathVariable long date,
-                               Model model){
+    @GetMapping("/test/final")
+    public String getStatistic(Model model, HttpSession session){
 //        TODO userId security
-        List<Statistic> statistics = statisticService.getStatisticsByDateAndUserId(new Date(date), 21);
+        List<Statistic> statistics = (List<Statistic>) session.getAttribute("statistics");
         List<PersonalStatisticByTest> statisticView = new ArrayList<>();
+        int numOfCorrect=0;
 //        Fill list of statisticView (Name of question, is correct, list of literature, list of links)
         for (Statistic statistic : statistics) {
             PersonalStatisticByTest pst = new PersonalStatisticByTest();
@@ -105,9 +105,17 @@ public class StatisticController {
             }
             pst.setLiterature(allLiteratureByQuestionId);
             pst.setLinkToLiterature(allLinks);
+            if(statistic.isCorrect()){
+                numOfCorrect++;
+            }
             statisticView.add(pst);
         }
+
         model.addAttribute("statistics",statisticView);
+        model.addAttribute("percent",Math.round(((double)numOfCorrect/statistics.size()) *100));
+        model.addAttribute("numOfCorrect",numOfCorrect);
+        model.addAttribute("numOfQuestion",statistics.size());
+        session.removeAttribute("statistics");
         return "/userStatistic/testStatistic";
     }
 

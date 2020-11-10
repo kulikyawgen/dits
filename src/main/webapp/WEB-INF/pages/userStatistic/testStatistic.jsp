@@ -34,12 +34,6 @@
         </div>
     </div>
     <div class="row m-2 align-items-center">
-        <div class="col-sm-12 col-md-5">
-            <img src="https://lh4.googleusercontent.com/hiq9rrHzKdGFT2fRNKUO39NHMnLOXNWmlh_LSj-Tq-Mu36hPgcL1mjKUbgY3Hs65EZIwcxHHkB0ZIU5LWaLiLIupl3wsJZLxWz_ceFRhNiS4iqCw4rs8OOZDGSkfxzTlJmz-WAupOVsy7pwNow"
-                 class="img-fluid"
-                 alt="logo">
-        </div>
-        <div class="col-sm-12 col-md-7 pl-4">
             <table class="table">
                 <thead class="thead-dark">
                 <tr>
@@ -50,33 +44,29 @@
                 </tr>
                 </thead>
                 <c:forEach var="statistic" items="${statistics}">
-                    <tr>
-                        <th scope="row"><c:out value="${statistic.nameOfQuestion}"/></th>
-                        <td>
-                            <c:if test="${statistic.correct == true}">
-                                <c:out value="✓"/>
-                            </c:if>
-                            <c:if test="${statistic.correct == false}">
+                    <c:if test="${statistic.correct==false}">
+                        <tr>
+                            <th scope="row"><c:out value="${statistic.nameOfQuestion}"/></th>
+                            <td>
                                 <c:out value="✘"/>
-                            </c:if>
-                        </td>
-                        <td>
-                            <c:forEach var="literature" items="${statistic.literature}">
-                                <c:out value="${literature.description}"/>
-                            </c:forEach>
-                        </td>
-                        <td>
-                            <c:forEach var="link" items="${statistic.linkToLiterature}">
-                                <a target="_blank" href="<c:out value="${link.link}"/>"><c:out value="${link.link}"/></a>
-                            </c:forEach>
-
-                        </td>
-                    </tr>
+                            </td>
+                            <td>
+                                <c:forEach var="literature" items="${statistic.literature}">
+                                    <c:out value="${literature.description}"/>
+                                </c:forEach>
+                            </td>
+                            <td>
+                                <c:forEach var="link" items="${statistic.linkToLiterature}">
+                                    <a target="_blank" href="<c:out value="${link.link}"/>"><c:out value="${link.link}"/></a>
+                                </c:forEach>
+                            </td>
+                        </tr>
+                    </c:if>
                 </c:forEach>
             </table>
-            <button> Return </button>
+            <p> <i style="color: blue"> ${numOfCorrect} of ${numOfQuestion} are correct; <em>Result: ${percent}%</em></i></p>
+            <button onclick="location.href=<c:url value="/"/>"> Go to main </button>
 
-        </div>
     </div>
 </div>
 </body>
