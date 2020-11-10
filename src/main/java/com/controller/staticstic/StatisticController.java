@@ -55,30 +55,6 @@ public class StatisticController {
         return "statistics/testStatistic";
     }
 
-    @GetMapping("/type")
-    public String typeOfStatistic(){
-        return "/userStatistic/typeOfStatistic";
-    }
-
-    /**
-     *
-     * @param userId
-     * @param model
-     * @return
-     *
-     * Метод передает на view мапу с датой прохождения теста и сам тест.
-     */
-    @GetMapping("/{userId}")
-    public String testsByUserId(@PathVariable int userId, Model model){
-        List<Statistic> statistics = statisticService.getStatisticByUserIdGroupByDate(userId);
-        Map<Date,Test> tests= new HashMap<>();
-        for (Statistic statistic : statistics) {
-            tests.put(statistic.getDate(),statistic.getQuestion().getTest());
-        }
-        model.addAttribute("tests", tests);
-        return "/userStatistic/testSelect";
-    }
-
     /**
      *
      * @param model
@@ -130,37 +106,34 @@ public class StatisticController {
      */
     @GetMapping("/users")
     public String statisticByUser(Model model){
-//        Достаю все сгруппированные статистики для конкретного пользователя
-//        TODO userId from security
-        List<Statistic> statisticsGroupByDate = statisticService.getStatisticByUserIdGroupByDate(21);
-//        Создаю лист в котором будут лежать итоговые статистики для каждого теста
+//        TODO id from security
+        List<Statistic> groupedStatistics = statisticService.getStatisticByUserIdGroupByDQuestionId(21);
         List<PersonalStatisticForUser> psu = new ArrayList<>();
-//        Пробегаю по каждой сгруппированной статистике
-        for (Statistic groupStatistic : statisticsGroupByDate) {
-            int numOfCorrect = 0;
-            Date date = groupStatistic.getDate();
-//          Вытаскиваю каждую сущность статистики для данного прохождения (по дате) и просчитываю
-//          сколько правильных ответов.
-            List<Statistic> statisticsByTest = statisticService.getStatisticsByDateAndUserId(date, 21);
-            for (Statistic statistic : statisticsByTest) {
-                if(statistic.isCorrect()){
+//        TODO id from security
+        User user = userService.getUserById(21);
+        for (Statistic statistic : groupedStatistics) {
+            int numOfCorrect=0;
+            int completed = 0;
+//            TODO id from security
+            List<Statistic> statisticsByOneQuestion = statisticService.getStatisticsByQuestionIdAndUserId(statistic.getQuestion().getQuestionId(), 21);
+            for (Statistic statistic1 : statisticsByOneQuestion) {
+                if(statistic1.isCorrect()){
                     numOfCorrect++;
                 }
             }
-//          Filling view and send it to model
+            completed=statisticsByOneQuestion.size();
+            double percent = Math.round(((double)numOfCorrect/completed)*100);
+
+
             PersonalStatisticForUser psuModel = new PersonalStatisticForUser();
-            User user = userService.getUserById(21);
-            double percent = ((double) numOfCorrect/statisticsByTest.size())*100;
-            psuModel.setFio(user.getFirstName()+" "+user.getLastName());
-            psuModel.setCompleted(statisticsByTest.size());
-            psuModel.setNameOfTest( groupStatistic.getQuestion().getTest().getName());
-            psuModel.setPercent(Math.round(percent));
-            psuModel.setQuestion("????");
+            psuModel.setFio(user.getFirstName()+" " + user.getLastName());
+            psuModel.setQuestion(statistic.getQuestion().getDescription());
+            psuModel.setNameOfTest(testService.getOne(statistic.getQuestion().getTest().getTestId()).getName());
+            psuModel.setCompleted(completed);
+            psuModel.setPercent(percent);
             psu.add(psuModel);
         }
-
         model.addAttribute("statistics",psu);
-
         return "/userStatistic/userStatistic";
     }
 

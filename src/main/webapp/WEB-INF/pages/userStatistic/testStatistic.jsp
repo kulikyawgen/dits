@@ -64,9 +64,10 @@
                     </c:if>
                 </c:forEach>
             </table>
-            <p> <i style="color: blue"> ${numOfCorrect} of ${numOfQuestion} are correct; <em>Result: ${percent}%</em></i></p>
-            <button onclick="location.href=<c:url value="/"/>"> Go to main </button>
-
+            <p style="text-align: center"> <i style="color: blue"> ${numOfCorrect} of ${numOfQuestion} are correct; <em>Result: ${percent}%</em></i></p>
+    </div>
+    <div style="text-align:center">
+        <button onclick="location.href=<c:url value="/"/>"> Go to main </button>
     </div>
 </div>
 </body>

@@ -45,7 +45,7 @@
             <div class="row m-2">
                 <div class="col-sm-12">
 <%--                    TODO userId security--%>
-                    <a href="<c:url value="/statistic/type"/>" class="btn btn-primary text-light">Статистика</a>
+                    <a href="<c:url value="/statistic/users"/>" class="btn btn-primary text-light">Статистика</a>
                 </div>
             </div>
         </div>

@@ -34,12 +34,6 @@
         </div>
     </div>
     <div class="row m-2 align-items-center">
-        <div class="col-sm-12 col-md-5">
-            <img src="https://lh4.googleusercontent.com/hiq9rrHzKdGFT2fRNKUO39NHMnLOXNWmlh_LSj-Tq-Mu36hPgcL1mjKUbgY3Hs65EZIwcxHHkB0ZIU5LWaLiLIupl3wsJZLxWz_ceFRhNiS4iqCw4rs8OOZDGSkfxzTlJmz-WAupOVsy7pwNow"
-                 class="img-fluid"
-                 alt="logo">
-        </div>
-        <div class="col-sm-12 col-md-7 pl-4">
             <table class="table">
                 <thead class="thead-dark">
                 <tr>
@@ -60,9 +54,9 @@
                     </tr>
                 </c:forEach>
             </table>
-            <button> Return </button>
-
-        </div>
+    </div>
+    <div style="text-align: center">
+        <button onclick="location.href=<c:url value="/"/> "> Go to main </button>
     </div>
 </div>
 </body>
