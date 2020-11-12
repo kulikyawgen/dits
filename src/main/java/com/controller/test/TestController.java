@@ -1,9 +1,12 @@
 package com.controller.test;
 
 import com.model.Test;
+import com.model.Topic;
 import com.service.test.TestService;
+import com.service.topic.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -13,12 +16,25 @@ public class TestController {
 
     @Autowired
     private TestService testService;
+    @Autowired
+    private TopicService topicService;
 
-    @GetMapping("{id}")
-    public ModelAndView getOne(@PathVariable int id) {
-        ModelAndView mav = new ModelAndView("test");
-        mav.addObject("test", testService.getOne(id));
-        return mav;
+    @GetMapping("{testId}")
+    public String getOne(Model model, @PathVariable int testId) {
+        Test test = testService.getOne(testId);
+        Topic topic = topicService.getOne(test.getTopic().getTopicId());
+        model.addAttribute("test", test);
+        model.addAttribute("topic", topic);
+        return "/user/passingTest/testStart";
+    }
+
+    /**
+     * Данный метод возвращает представление со всеми тестами для конкретного топика по id
+     * */
+    @GetMapping("/all/{topicId}")
+    public String getTests(Model model, @PathVariable int topicId){
+        model.addAttribute("tests",testService.getByTopic(topicId,0,7,"ASC","name").getContent());
+        return "/user/passingTest/testsList";
     }
 
     @GetMapping

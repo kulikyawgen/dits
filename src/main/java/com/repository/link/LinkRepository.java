@@ -19,6 +19,6 @@ public interface LinkRepository extends JpaRepository<Link,Integer> {
     @Query("from Link where linkId=?1")
     Link findLinkById(int id);
 
-    @Query("from Link where literatureid=?1")
+    @Query("from Link l where l.literatureid.literatureId=?1")
     List<Link> findAllLinkByLiteratureId(int id);
 }

@@ -4,6 +4,7 @@ import com.model.Topic;
 import com.service.topic.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,12 +33,11 @@ public class TopicController {
     }
 
     @GetMapping("/all")
-    public ModelAndView getAll() {
-        ModelAndView mav = new ModelAndView("topic/topics_select");
-        mav.addObject("topics",
-                topicService.getPage(0, 100, "ASC", "topic_id").getContent());
-        return mav;
+    public String getAll(Model model) {
+        model.addAttribute("topics",topicService.getPage(0,7,"ASC","name").getContent());
+        return "/user/passingTest/topicsUser";
     }
+
 
     @PostMapping
     public ModelAndView create(@RequestBody Topic topic) {

@@ -11,9 +11,9 @@ import java.util.Date;
 public class Statistic {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "statistic_id")
-    private int statisticId;
+    private int staticId;
     private Date date;
     private boolean correct;
     @ManyToOne

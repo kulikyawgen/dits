@@ -19,9 +19,9 @@ public interface AnswerRepository extends JpaRepository<Answer,Integer> {
     @Query("from Answer where answerId=?1")
     Answer findAnswerById(int id);
 
-    @Query("from Answer where questionid=?1")
+    @Query("from Answer where questionid.questionId=?1")
     List<Answer> findAllAnswersByQuestionId(int id);
 
-    @Query("from Answer where questionid=?1 and correct=true")
+    @Query("from Answer where questionid.questionId=?1 and correct=true")
     List<Answer> findTrueAnswersForQuestion(int id);
 }
