@@ -1,4 +1,4 @@
-package com.controller.staticstic;
+package com.controller.staticstic.user;
 
 import com.model.*;
 import com.service.link.LinkService;
