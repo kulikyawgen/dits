@@ -75,7 +75,7 @@ public class PassingTestController {
 
            return "redirect:/statistic/test/final";
        }
-        return "/passingTest/runningTest";
+        return "/user/passingTest/runningTest";
     }
 
     /**

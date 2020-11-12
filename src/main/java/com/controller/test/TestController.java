@@ -25,7 +25,7 @@ public class TestController {
         Topic topic = topicService.getOne(test.getTopic().getTopicId());
         model.addAttribute("test", test);
         model.addAttribute("topic", topic);
-        return "/passingTest/testStart";
+        return "/user/passingTest/testStart";
     }
 
     /**
@@ -34,7 +34,7 @@ public class TestController {
     @GetMapping("/all/{topicId}")
     public String getTests(Model model, @PathVariable int topicId){
         model.addAttribute("tests",testService.getByTopic(topicId,0,7,"ASC","name").getContent());
-        return "/passingTest/testsList";
+        return "/user/passingTest/testsList";
     }
 
     @GetMapping

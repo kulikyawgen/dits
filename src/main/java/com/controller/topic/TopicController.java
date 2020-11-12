@@ -35,7 +35,7 @@ public class TopicController {
     @GetMapping("/all")
     public String getAll(Model model) {
         model.addAttribute("topics",topicService.getPage(0,7,"ASC","name").getContent());
-        return "/passingTest/topicsUser";
+        return "/user/passingTest/topicsUser";
     }
 
 

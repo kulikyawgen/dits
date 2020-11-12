@@ -20,23 +20,19 @@ import java.util.List;
 @RequestMapping("/")
 public class MainController {
 
-    private final TopicService topicService;
     private final TestService testService;
-    private final QuestionService questionService;
     private final AnswerService answerService;
 
     @Autowired
     public MainController(TopicService topicService, TestService testService, QuestionService questionService, AnswerService answerService) {
-        this.topicService = topicService;
         this.testService = testService;
-        this.questionService = questionService;
         this.answerService = answerService;
     }
 
 
     @GetMapping("/")
     public String getIndexPage() {
-       return "/passingTest/indexUser";
+       return "/user/indexUser";
     }
 
     @GetMapping("/user/test_run/{id}/{quest_num}")
@@ -46,12 +42,12 @@ public class MainController {
         try {
             answers = answerService.getAllAnswersByQuestionId(test.getQuestions().get(quest_num).getQuestionId());
         }catch (IndexOutOfBoundsException exception){
-            return "/passingTest/finish";
+            return "/user/passingTest/finish";
         }
         model.addAttribute("test",test);
         model.addAttribute("question",test.getQuestions().get(quest_num));
         model.addAttribute("answers",answers);
         model.addAttribute("numOfQuestion",quest_num);
-        return "/passingTest/runningTest";
+        return "/user/passingTest/runningTest";
     }
 }

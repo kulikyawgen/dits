@@ -13,6 +13,6 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int role_id;
     private String name;
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private List<User> users = new ArrayList<>();
 }

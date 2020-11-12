@@ -18,19 +18,19 @@ import java.util.*;
 @RequestMapping("/statistic")
 public class StatisticController {
 
-    private final StatisticService statisticService;
     private final LiteratureService literatureService;
     private final LinkService linkService;
     private final UserService userService;
-    private final TestService testService;
+    private final PersonalStatisticService personalStatisticService;
 
     @Autowired
-    public StatisticController(StatisticService statisticService, LiteratureService literatureService, LinkService linkService, UserService userService, TestService testService) {
-        this.statisticService = statisticService;
+    public StatisticController(StatisticService statisticService, LiteratureService literatureService,
+                               LinkService linkService, UserService userService,
+                               TestService testService, PersonalStatisticService personalStatisticService) {
+        this.personalStatisticService = personalStatisticService;
         this.literatureService = literatureService;
         this.linkService = linkService;
         this.userService = userService;
-        this.testService = testService;
     }
 
     @GetMapping
@@ -92,7 +92,7 @@ public class StatisticController {
         model.addAttribute("numOfCorrect",numOfCorrect);
         model.addAttribute("numOfQuestion",statistics.size());
         session.removeAttribute("statistics");
-        return "/userStatistic/testStatistic";
+        return "/user/userStatistic/testStatistic";
     }
 
 
@@ -106,35 +106,8 @@ public class StatisticController {
      */
     @GetMapping("/users")
     public String statisticByUser(Model model){
-//        TODO id from security
-        List<Statistic> groupedStatistics = statisticService.getStatisticByUserIdGroupByDQuestionId(21);
-        List<PersonalStatisticForUser> psu = new ArrayList<>();
-//        TODO id from security
-        User user = userService.getUserById(21);
-        for (Statistic statistic : groupedStatistics) {
-            int numOfCorrect=0;
-            int completed = 0;
-//            TODO id from security
-            List<Statistic> statisticsByOneQuestion = statisticService.getStatisticsByQuestionIdAndUserId(statistic.getQuestion().getQuestionId(), 21);
-            for (Statistic statistic1 : statisticsByOneQuestion) {
-                if(statistic1.isCorrect()){
-                    numOfCorrect++;
-                }
-            }
-            completed=statisticsByOneQuestion.size();
-            double percent = Math.round(((double)numOfCorrect/completed)*100);
-
-
-            PersonalStatisticForUser psuModel = new PersonalStatisticForUser();
-            psuModel.setFio(user.getFirstName()+" " + user.getLastName());
-            psuModel.setQuestion(statistic.getQuestion().getDescription());
-            psuModel.setNameOfTest(testService.getOne(statistic.getQuestion().getTest().getTestId()).getName());
-            psuModel.setCompleted(completed);
-            psuModel.setPercent(percent);
-            psu.add(psuModel);
-        }
-        model.addAttribute("statistics",psu);
-        return "/userStatistic/userStatistic";
+        model.addAttribute("statistics",personalStatisticService.getPersonalStatistic());
+        return "/user/userStatistic/userStatistic";
     }
 
 

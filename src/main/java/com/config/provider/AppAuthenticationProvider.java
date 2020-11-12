@@ -3,6 +3,7 @@
 */
 package com.config.provider;
 
+import com.model.AppUser;
 import com.model.User;
 import com.service.user.UserService;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -44,7 +45,7 @@ public class AppAuthenticationProvider implements AuthenticationProvider {
                 .map(role -> new SimpleGrantedAuthority("ROLE_"+role.getName().toString()))
                 .collect(Collectors.toList());
 
-        return new UsernamePasswordAuthenticationToken(user,null,authorityList);
+        return new UsernamePasswordAuthenticationToken(AppUser.convertToAppUser(user),null,authorityList);
     }
 
     @Override
