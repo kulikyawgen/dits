@@ -29,6 +29,16 @@ public class StatisticServiceImpl implements StatisticService {
     }
 
     @Override
+    public List<Statistic> getFilteredStatisticByTestId(int id) {
+        return staticRepo.findStatisticByTestId(id);
+    }
+
+    @Override
+    public List<Statistic> getAllStatisticByQuestionId(int id) {
+        return staticRepo.getAllStatisticByQuestionId(id);
+    }
+
+    @Override
     public void updateStatistic(Statistic statistic) {
         staticRepo.saveAndFlush(statistic);
     }
@@ -42,4 +52,9 @@ public class StatisticServiceImpl implements StatisticService {
     public List<Statistic> getAllStatistic() {
         return staticRepo.findAll();
     }
+
+    public List<Statistic> getFilteredStatisticByTestUser(int id) { return staticRepo.findStatisticByTestUser(id);
+    }
+
+    public List<Statistic> findAll(){ return staticRepo.findAll();}
 }

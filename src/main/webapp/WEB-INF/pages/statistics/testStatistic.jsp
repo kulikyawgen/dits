@@ -7,18 +7,22 @@
     <title>statistic by tests</title>
 </head>
 <body>
-<table>
-    <thead>
-    <tr>
-        <th> Login </th>
-        <th> Test name </th>
-        <th> Finished </th>
-        <th> % true</th>
-        <th></th>
-    </tr>
-    </thead>
+<table border="1">
     <tbody>
-
+    <tr>
+        <th> Test name</th>
+        <th> Finished</th>
+        <th> % true</th>
+    </tr>
+    </tbody>
+    <tbody>
+    <c:forEach items="${testStat}" var="stat">
+    <tr>
+        <th>${stat.name} </th>
+        <th>${stat.countCompleted} </th>
+        <th>${stat.percent} </th>
+    </tr>
+    </c:forEach>
     </tbody>
 </table>
 </form>

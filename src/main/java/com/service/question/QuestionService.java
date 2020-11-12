@@ -3,6 +3,8 @@ package com.service.question;
 import com.model.Question;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 public interface QuestionService {
 
     Question create(Question question);
@@ -18,4 +20,6 @@ public interface QuestionService {
     void deleteById(int id);
 
     void delete(Question question);
+
+    List<Question> getAllQuestion();
 }

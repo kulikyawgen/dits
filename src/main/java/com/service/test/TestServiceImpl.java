@@ -3,6 +3,7 @@ package com.service.test;
 import com.mapper.TestMapper;
 import com.model.Test;
 import com.model.Topic;
+import com.model.ViewStatistic;
 import com.repository.test.TestRepository;
 import com.service.topic.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 @Service
-@Transactional
+//@Transactional
 public class TestServiceImpl implements TestService {
 
     @Autowired
@@ -57,9 +60,16 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
+    public List<Test> getAllTests() {
+        List<Test> all = testRepository.findAll();
+        return all;
+    }
+
+    @Override
     public void deleteById(int id) {
         testRepository.deleteById(id);
     }
+
 
     private PageRequest createPageRequest(int page, int size, String order, String... params) {
         return PageRequest.of(page, size, Sort.Direction.fromString(order), params);

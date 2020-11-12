@@ -18,7 +18,7 @@ public class Test {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "topic_id")
     private Topic topic;
-    @OneToMany(mappedBy = "test", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "test", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Question> questions;
 
     public void addQuestion(Question question) {

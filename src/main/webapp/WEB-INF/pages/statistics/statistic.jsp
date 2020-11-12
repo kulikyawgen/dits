@@ -7,8 +7,8 @@
     <title>statistic</title>
 </head>
 <body>
-<a href="/statistic/testStat">test statistics</a> <br>
-<a href="/statistic/statOnIssues">statistics on issues</a> <br>
+<a href="/statistic/testStatistic">test statistics</a> <br>
+<a href="/statistic/questionStatistic">statistics on issues</a> <br>
 <a href="/statistic/usersStatistic">users statistics</a>
 </body>
 </html>

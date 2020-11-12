@@ -14,7 +14,7 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int questionId;
     private String description;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "test_id")
     private Test test;
     @OneToMany(mappedBy = "questionid", cascade = CascadeType.REMOVE)

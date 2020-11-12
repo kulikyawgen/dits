@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int role_id;
     private String name;
     @ManyToMany(mappedBy = "roles")

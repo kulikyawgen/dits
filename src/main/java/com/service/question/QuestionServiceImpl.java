@@ -11,8 +11,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
-@Transactional
+//@Transactional
 public class QuestionServiceImpl implements QuestionService {
 
     @Autowired
@@ -62,7 +64,13 @@ public class QuestionServiceImpl implements QuestionService {
         questionRepository.delete(question);
     }
 
+    @Override
+    public List<Question> getAllQuestion() {
+        return questionRepository.findAll();
+    }
+
     private PageRequest createPageRequest(int page, int size, String order, String... params) {
         return PageRequest.of(page, size, Sort.Direction.fromString(order), params);
     }
+
 }

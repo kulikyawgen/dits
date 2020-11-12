@@ -5,7 +5,7 @@ package com.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-public class AppWebConfigInit extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class    AppWebConfigInit extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return null;

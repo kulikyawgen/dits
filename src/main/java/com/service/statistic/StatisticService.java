@@ -8,9 +8,20 @@ import java.util.List;
 
 public interface StatisticService {
     List<Statistic> getAllByDate(Date date);
+
     Statistic addStatistic(Statistic statistic);
+
     void delete(Statistic statistic);
+
     void updateStatistic(Statistic statistic);
+
     Statistic getStatisticById(int id);
+
     List<Statistic> getAllStatistic();
+
+    List<Statistic> getFilteredStatisticByTestId(int id);
+
+    List<Statistic> getAllStatisticByQuestionId(int id);
+
+
 }

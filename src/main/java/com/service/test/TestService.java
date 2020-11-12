@@ -1,7 +1,10 @@
 package com.service.test;
 
 import com.model.Test;
+import com.model.ViewStatistic;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 public interface TestService {
 
@@ -15,5 +18,8 @@ public interface TestService {
 
     Page<Test> getByTopic(int topicId, int page, int size, String order, String... params);
 
+    List<Test> getAllTests();
+
     void deleteById(int id);
+
 }

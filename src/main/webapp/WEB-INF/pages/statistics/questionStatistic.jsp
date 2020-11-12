@@ -10,14 +10,19 @@
 <table border="1">
     <thead>
     <tr>
-        <th> Question name </th>
-        <th> finished count </th>
+        <th> Question name</th>
+        <th> finished count</th>
         <th> % true</th>
-        <th></th>
     </tr>
     </thead>
     <tbody>
-
+    <c:forEach items="${statistics}" var="stat">
+        <tr>
+            <th> ${stat.name} </th>
+            <th> ${stat.countCompleted} </th>
+            <th> ${stat.percent} </th>
+        </tr>
+    </c:forEach>
     </tbody>
 </table>
 <form action="/goHome">
