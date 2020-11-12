@@ -23,7 +23,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(value = "com.repository")
-@PropertySource("classpath:properties_local.properties")
+@PropertySource("classpath:properties.properties")
 public class AppHibernateConfig {
 
     @Autowired

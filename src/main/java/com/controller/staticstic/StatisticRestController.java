@@ -1,7 +1,7 @@
 /*
 @author Andrei Gorevoi
 */
-package com.controller.staticstic.user;
+package com.controller.staticstic;
 
 import com.dto.QuestionDto;
 import com.model.Answer;

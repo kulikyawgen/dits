@@ -1,7 +1,7 @@
 /*
 @author Andrei Gorevoi
 */
-package com.controller.staticstic.user;
+package com.controller.staticstic;
 
 import com.model.PersonalStatisticForUser;
 import com.model.Statistic;
