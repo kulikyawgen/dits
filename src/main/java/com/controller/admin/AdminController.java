@@ -20,6 +20,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+//    TODO соблюсти принцип DI!!!
     @Autowired
     private ViewStatisticServiceImpl viewStatisticService;
 
@@ -64,6 +65,7 @@ public class AdminController {
     public String createTest(@RequestParam String topic,
                              @RequestParam String nameTest,
                              @RequestParam String descriptionTest) {
+//        TODO не работает код
         Test newTest = new Test();
         newTest.setName(nameTest);
         newTest.setDescription(descriptionTest);

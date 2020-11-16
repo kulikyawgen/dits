@@ -42,6 +42,7 @@ public class ViewStatisticServiceImpl implements ViewStatisticService {
 
     @Override
     public ViewStatistic getQuestionInfo(Question question) {
+//        TODO 46 и 47 объеденить
         ViewStatistic viewStatistic;
         viewStatistic = null;
         List<Statistic> allStatisticByQuestionId = statisticService.getAllStatisticByQuestionId(question.getQuestionId());
@@ -66,6 +67,7 @@ public class ViewStatisticServiceImpl implements ViewStatisticService {
         List<ViewStatistic> testInfoList = new ArrayList<>();
         ViewStatistic viewStatistic;
         List<Test> allTests = testService.getAllTests();
+//        TODO можно использовать стрим вместо цикла
         for (Test test : allTests) {
             viewStatistic = getTestInfo(test);
             if (viewStatistic != null) {
