@@ -39,12 +39,48 @@
         <div class="col-sm-12 col-md-7 pl-4">
             <div class="row m-2">
                 <div class="col-sm-12">
-                    <a href="<c:url value="/tutor/test"/> " class="btn btn-primary text-light">Add test</a>
+                    <label>Select topic</label>
+                    <select>
+                        <option>JAVA CORE</option>
+                        <option>JS</option>
+                        <option>MATH</option>
+                    </select>
+                    <br>
+                    <label>Select test</label>
+                    <select>
+                        <option>Java for everybody</option>
+                        <option>Java for every day</option>
+                        <option>Js is very bad language</option>
+                    </select>
+                    <input type="text">
+                    <br>
+                    <label>Question</label>
+                    <input type="text">
+                    <br>
+                    <label>Answer for question</label>
+                    <input type="text">
+                    <br>
+                    <label>Answer for question</label>
+                    <input type="text">
+                    <br>
+                    <label>Answer for question</label>
+                    <input type="text">
+                    <br>
+                    <label>Answer for question</label>
+                    <input type="text">
+                    <br>
+                    <label>Link for answer</label>
+                    <input type="text">
+                    <br>
+                    <label>Literature for answer</label>
+                    <input type="text">
+                    <br>
+
                 </div>
             </div>
             <div class="row m-2">
                 <div class="col-sm-12">
-                    <a href="<c:url value="/tutor/question"/> " class="btn btn-primary text-light">Add question</a>
+                    <a href="#" class="btn btn-primary text-light">Add question</a>
                 </div>
             </div>
         </div>
