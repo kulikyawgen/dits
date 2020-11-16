@@ -2,18 +2,14 @@ package com.controller;
 
 import com.model.Answer;
 import com.model.Test;
-import com.model.Topic;
-import com.model.User;
+import com.repository.statistic.StatisticRepo;
 import com.service.answer.AnswerService;
 import com.service.question.QuestionService;
 import com.service.test.TestService;
 import com.service.topic.TopicService;
-import com.service.user.UserService;
-import com.service.user.UserServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,16 +21,14 @@ import java.util.List;
 @Controller
 @RequestMapping("/")
 public class MainController {
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    Integer perem = 10;
+
 
     private final TestService testService;
     private final AnswerService answerService;
 
     @Autowired
-    public MainController(TopicService topicService, TestService testService, QuestionService questionService, AnswerService answerService) {
+    public MainController(TestService testService, AnswerService answerService) {
         this.testService = testService;
         this.answerService = answerService;
     }
@@ -46,11 +40,12 @@ public class MainController {
         if(authorities.size()==1){
             switch (authorities.get(0).getAuthority()){
                 case "ROLE_USER":
-                    return "/user/indexUser";
+                    return  "redirect:/user/main";
                 case "ROLE_ADMIN":
-                    return "redirect:/admin";
+//                    TODO : Admin index page
+                    return "/statistics/statistic";
                 case "ROLE_TUTOR":
-                    return "/tutor";
+                    return "/indexTutor";
             }
         }
         if(authorities.size()==2){
@@ -71,7 +66,7 @@ public class MainController {
             }else if(user==1 && admin==1){
                 return "/indexAdminUser";
             }else {
-                return "/tutorAdmin";
+                return "/indexTutorAdmin";
             }
         }
         if(authorities.size()==3){
@@ -82,19 +77,5 @@ public class MainController {
 
     }
 
-    @GetMapping("/user/test_run/{id}/{quest_num}")
-    public String questionsForTest(Model model, @PathVariable int id,@PathVariable int quest_num){
-        Test test = testService.getOne(id);
-        List<Answer> answers;
-        try {
-            answers = answerService.getAllAnswersByQuestionId(test.getQuestions().get(quest_num).getQuestionId());
-        }catch (IndexOutOfBoundsException exception){
-            return "/user/passingTest/finish";
-        }
-        model.addAttribute("test",test);
-        model.addAttribute("question",test.getQuestions().get(quest_num));
-        model.addAttribute("answers",answers);
-        model.addAttribute("numOfQuestion",quest_num);
-        return "/user/passingTest/runningTest";
-    }
+
 }

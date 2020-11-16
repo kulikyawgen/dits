@@ -17,13 +17,13 @@ public interface StatisticRepo extends JpaRepository<Statistic, Integer> {
     @Query("from Statistic s where s.question.questionId= :id")
     List<Statistic> getAllStatisticByQuestionId(@Param("id") int id);
 
-    @Query("from Statistic s  where s.question.test.testId= :testId")
+    @Query("from Statistic s where s.question.test.testId= :testId")
     List<Statistic> findStatisticByTestId(@Param("testId") int testId);
 
     @Query("from Statistic s where s.user.userId = :userId ")
     List<Statistic> findStatisticByTestUser(@Param("userId") int userId);
 
-    @Query("from Statistic s where s.user.userId=?1 group by s.date")
+   @Query("from Statistic s where s.user.userId=?1 group by s.date")
     List<Statistic> getStatisticByUserIdGroupByDate(int userId);
 
     @Query("from Statistic s where s.user.userId=?1 group by s.question.questionId")

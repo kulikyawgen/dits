@@ -3,6 +3,7 @@
 */
 package com.controller.staticstic;
 
+import com.controller.BaseController;
 import com.model.PersonalStatisticForUser;
 import com.model.Statistic;
 import com.model.User;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class PersonalStatisticService {
+public class PersonalStatisticService extends BaseController {
 
     private final StatisticService statisticService;
     private final TestService testService;
@@ -30,54 +31,20 @@ public class PersonalStatisticService {
         this.userService = userService;
     }
 
-    public List<PersonalStatisticForUser> getPersonalStatistic(int id){
-        //        TODO id from security
-        List<Statistic> groupedStatistics = statisticService.getStatisticByUserIdGroupByDQuestionId(id);
+    public List<PersonalStatisticForUser> getPersonalStatistic(){
+        List<Statistic> groupedStatistics = statisticService.getStatisticByUserIdGroupByDQuestionId(getCurrentUser().getId());
         List<PersonalStatisticForUser> psu = new ArrayList<>();
-//        TODO id from security
-        User user = userService.getUserById(id);
+        User user = userService.getUserById(getCurrentUser().getId());
         for (Statistic statistic : groupedStatistics) {
             int numOfCorrect=0;
             int completed = 0;
-//            TODO id from security
-            List<Statistic> statisticsByOneQuestion = statisticService.getStatisticsByQuestionIdAndUserId(statistic.getQuestion().getQuestionId(), 21);
+            List<Statistic> statisticsByOneQuestion = statisticService.getStatisticsByQuestionIdAndUserId(statistic.getQuestion().getQuestionId(), getCurrentUser().getId());
             for (Statistic statistic1 : statisticsByOneQuestion) {
                 if(statistic1.isCorrect()){
                     numOfCorrect++;
                 }
             }
             completed=statisticsByOneQuestion.size();
-            double percent = Math.round(((double)numOfCorrect/completed)*100);
-
-
-            PersonalStatisticForUser psuModel = new PersonalStatisticForUser();
-            psuModel.setFio(user.getFirstName()+" " + user.getLastName());
-            psuModel.setQuestion(statistic.getQuestion().getDescription());
-            psuModel.setNameOfTest(testService.getOne(statistic.getQuestion().getTest().getTestId()).getName());
-            psuModel.setCompleted(completed);
-            psuModel.setPercent(percent);
-            psu.add(psuModel);
-        }
-        return psu;
-
-    } public List<PersonalStatisticForUser> getPersonalStatisticByUsers(int id){
-        //        TODO id from security
-
-        List<Statistic> groupedStatistics = statisticService.getStatisticByUserIdGroupByDate(id);
-        List<PersonalStatisticForUser> psu = new ArrayList<>();
-//        TODO id from security
-        User user = userService.getUserById(id);
-        for (Statistic statistic : groupedStatistics) {
-            int numOfCorrect=0;
-            int completed = 0;
-//            TODO id from security
-            List<Statistic> statisticsByOneTest = statisticService.getStatisticsByDateAndUserId(statistic.getDate(), id);
-            for (Statistic statistic1 : statisticsByOneTest) {
-                if(statistic1.isCorrect()){
-                    numOfCorrect++;
-                }
-            }
-            completed=statisticsByOneTest.size();
             double percent = Math.round(((double)numOfCorrect/completed)*100);
 
 

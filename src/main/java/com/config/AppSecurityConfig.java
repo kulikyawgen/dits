@@ -33,25 +33,23 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 //                auth.inMemoryAuthentication()
 //                .withUser("user")
 //                .password(passwordEncoder().encode("1234"))
-//                .roles("USER");
-
-//        auth.inMemoryAuthentication()
-//                .withUser("admin")
-//                .password(passwordEncoder().encode("1234"))
-//                .roles("ADMIN");
+//                .roles("USER")
+//                        .and()
+//                        .withUser("Admin")
+//                        .password(passwordEncoder().encode("5678"))
+//                        .roles("USER","ADMIN");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .and()
-                .authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user/**").hasRole("USER")
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/tutor/**").hasRole("TUTOR")
                 .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .defaultSuccessUrl("/")
-                .and()
-                .logout().permitAll();
+        .and()
+        .formLogin()
+        .defaultSuccessUrl("/");
     }
 }

@@ -19,23 +19,7 @@ public class TestController {
     @Autowired
     private TopicService topicService;
 
-    @GetMapping("{testId}")
-    public String getOne(Model model, @PathVariable int testId) {
-        Test test = testService.getOne(testId);
-        Topic topic = topicService.getOne(test.getTopic().getTopicId());
-        model.addAttribute("test", test);
-        model.addAttribute("topic", topic);
-        return "/user/passingTest/testStart";
-    }
 
-    /**
-     * Данный метод возвращает представление со всеми тестами для конкретного топика по id
-     * */
-    @GetMapping("/all/{topicId}")
-    public String getTests(Model model, @PathVariable int topicId){
-        model.addAttribute("tests",testService.getByTopic(topicId,0,7,"ASC","name").getContent());
-        return "/user/passingTest/testsList";
-    }
 
     @GetMapping
     public ModelAndView getPage(@RequestParam(required = false, defaultValue = "0") int page,

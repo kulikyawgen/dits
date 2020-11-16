@@ -52,7 +52,7 @@
 </body>
 <script>
 function myFunction(id) {
-    var url = "http://localhost:8081/dits_war/passing/"+id;
+    var url = "http://localhost:8081/dits_war/user/passing/"+id;
     location.href=url;
 }
 </script>

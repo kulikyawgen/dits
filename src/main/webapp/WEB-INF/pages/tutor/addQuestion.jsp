@@ -1,8 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.model.Topic" %>
-<%@ page import="org.springframework.data.domain.Page" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.model.Test" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%String title = "DITS";%>
 <html>
@@ -41,34 +37,54 @@
                  alt="logo">
         </div>
         <div class="col-sm-12 col-md-7 pl-4">
-            <table class="table">
-                <thead class="thead-dark">
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Start</th>
-                </tr>
-                </thead>
-                <c:forEach var="test" items="${tests}">
-                    <tr>
-                        <th scope="row"><c:out value="${test.testId}"/></th>
-                        <td scope="row"><c:out value="${test.name}"/></td>
-                        <td scope="row"><c:out value="${test.description}"/></td>
-                        <td><button onclick="myFunction(${test.testId})">Start test</button></td>
-                    </tr>
-                </c:forEach>
-            </table>
+            <div class="row m-2">
+                <div class="col-sm-12">
+                    <label>Select topic</label>
+                    <select>
+                        <option>JAVA CORE</option>
+                        <option>JS</option>
+                        <option>MATH</option>
+                    </select>
+                    <br>
+                    <label>Select test</label>
+                    <select>
+                        <option>Java for everybody</option>
+                        <option>Java for every day</option>
+                        <option>Js is very bad language</option>
+                    </select>
+                    <input type="text">
+                    <br>
+                    <label>Question</label>
+                    <input type="text">
+                    <br>
+                    <label>Answer for question</label>
+                    <input type="text">
+                    <br>
+                    <label>Answer for question</label>
+                    <input type="text">
+                    <br>
+                    <label>Answer for question</label>
+                    <input type="text">
+                    <br>
+                    <label>Answer for question</label>
+                    <input type="text">
+                    <br>
+                    <label>Link for answer</label>
+                    <input type="text">
+                    <br>
+                    <label>Literature for answer</label>
+                    <input type="text">
+                    <br>
+
+                </div>
+            </div>
+            <div class="row m-2">
+                <div class="col-sm-12">
+                    <a href="#" class="btn btn-primary text-light">Add question</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 </body>
-<script>
-    function myFunction(testId) {
-        var url = "http://localhost:8081/dits_war/user/test/"+testId;
-        location.href=url;
-
-    }
-</script>
-
 </html>
