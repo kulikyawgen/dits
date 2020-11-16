@@ -102,9 +102,5 @@ public class StatisticServiceImpl implements StatisticService {
         return staticRepo.getStatisticsByQuestionIdAndUserId(questionId, userId);
     }
 
-    @Override
-    public List<Statistic> getStatisticForTests(int id) {
-        return staticRepo.getStatisticForTests(id);
-    }
 
 }
