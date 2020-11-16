@@ -3,6 +3,7 @@
 */
 package com.controller.staticstic;
 
+import com.controller.BaseController;
 import com.model.PersonalStatisticForUser;
 import com.model.Statistic;
 import com.model.User;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class PersonalStatisticService {
+public class PersonalStatisticService extends BaseController {
 
     private final StatisticService statisticService;
     private final TestService testService;
@@ -31,16 +32,13 @@ public class PersonalStatisticService {
     }
 
     public List<PersonalStatisticForUser> getPersonalStatistic(){
-        //        TODO id from security
-        List<Statistic> groupedStatistics = statisticService.getStatisticByUserIdGroupByDQuestionId(21);
+        List<Statistic> groupedStatistics = statisticService.getStatisticByUserIdGroupByDQuestionId(getCurrentUser().getId());
         List<PersonalStatisticForUser> psu = new ArrayList<>();
-//        TODO id from security
-        User user = userService.getUserById(21);
+        User user = userService.getUserById(getCurrentUser().getId());
         for (Statistic statistic : groupedStatistics) {
             int numOfCorrect=0;
             int completed = 0;
-//            TODO id from security
-            List<Statistic> statisticsByOneQuestion = statisticService.getStatisticsByQuestionIdAndUserId(statistic.getQuestion().getQuestionId(), 21);
+            List<Statistic> statisticsByOneQuestion = statisticService.getStatisticsByQuestionIdAndUserId(statistic.getQuestion().getQuestionId(), getCurrentUser().getId());
             for (Statistic statistic1 : statisticsByOneQuestion) {
                 if(statistic1.isCorrect()){
                     numOfCorrect++;

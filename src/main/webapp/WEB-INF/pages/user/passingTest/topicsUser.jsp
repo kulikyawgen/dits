@@ -65,7 +65,7 @@
 </body>
 <script>
 function myFunction(topicId) {
-    var url = "http://localhost:8081/dits_war/test/all/"+topicId;
+    var url = "http://localhost:8081/dits_war/user/tests/"+topicId;
     location.href=url;
 }
 </script>

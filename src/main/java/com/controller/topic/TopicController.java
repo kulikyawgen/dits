@@ -32,11 +32,7 @@ public class TopicController {
         return mav;
     }
 
-    @GetMapping("/all")
-    public String getAll(Model model) {
-        model.addAttribute("topics",topicService.getPage(0,7,"ASC","name").getContent());
-        return "/user/passingTest/topicsUser";
-    }
+
 
 
     @PostMapping

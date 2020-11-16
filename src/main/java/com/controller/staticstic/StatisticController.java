@@ -24,16 +24,16 @@ public class StatisticController {
     private final PersonalStatisticService personalStatisticService;
 
     @Autowired
-    public StatisticController(StatisticService statisticService, LiteratureService literatureService,
+    public StatisticController(LiteratureService literatureService,
                                LinkService linkService, UserService userService,
-                               TestService testService, PersonalStatisticService personalStatisticService) {
+                               PersonalStatisticService personalStatisticService) {
         this.personalStatisticService = personalStatisticService;
         this.literatureService = literatureService;
         this.linkService = linkService;
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping()
     public String statisticPage(){
         return "statistics/statistic" ;
     }
@@ -94,24 +94,6 @@ public class StatisticController {
         session.removeAttribute("statistics");
         return "/user/userStatistic/testStatistic";
     }
-
-
-    /**
-     *
-     * @param model
-     * @return
-     *
-     * Данный метод передает на view статистику для каждого пройденого теста для зологированного
-     * юзера;
-     */
-    @GetMapping("/users")
-    public String statisticByUser(Model model){
-        model.addAttribute("statistics",personalStatisticService.getPersonalStatistic());
-        return "/user/userStatistic/userStatistic";
-    }
-
-
-
 
 
 }

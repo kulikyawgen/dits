@@ -67,10 +67,10 @@
             answers.push(checkBox.val());
         }
         </c:forEach>
-        var url = "http://localhost:8081/dits_war/passing/"+id;
+        var url = "http://localhost:8081/dits_war/user/passing/"+id;
         $.ajax({
             type:"POST",
-            url:"http://localhost:8081/dits_war/statistic/",
+            url:"http://localhost:8081/dits_war/user/statistic/",
             data:JSON.stringify(answers),
             contentType:"application/json",
             success:function (data){

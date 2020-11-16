@@ -3,6 +3,7 @@
 */
 package com.controller.staticstic;
 
+import com.controller.BaseController;
 import com.dto.QuestionDto;
 import com.model.Answer;
 import com.model.Statistic;
@@ -24,8 +25,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("statistic")
-public class StatisticRestController {
+@RequestMapping("user")
+public class StatisticRestController extends BaseController {
 
     private final StatisticService statisticService;
     private final QuestionService questionService;
@@ -52,7 +53,7 @@ public class StatisticRestController {
      * Данный метод создает статистику для отвеченного вопроса и помещает ее в сессию. Номер вопроса приходит первым
      * элементом в 'str'. Так же данный метод меняет флаг на отвеченный для текущего вопроса.
      */
-    @PostMapping("/")
+    @PostMapping("/statistic")
     public Statistic addStatisticToSession(@RequestBody List<String> str,HttpSession session){
         Integer questionId = Integer.valueOf(str.get(0));
         List<Answer> trueAnswersForQuestion = answerService.getTrueAnswersForQuestion(questionId);
@@ -63,8 +64,7 @@ public class StatisticRestController {
         Statistic statistic = new Statistic();
         statistic.setDate((Date) session.getAttribute("startTime"));
         statistic.setQuestion(questionService.getOne(questionId));
-            //        TODO get userId by Security or Session
-        statistic.setUser(userService.getUserById(21));
+        statistic.setUser(userService.getUserById(getCurrentUser().getId()));
 
             //        Checking for correct TODO check situation with many of correct answers
         if(truAnswersList.equals(str)){
@@ -84,10 +84,5 @@ public class StatisticRestController {
             }
             return statistic;
     }
-
-
-
-
-
 
 }
