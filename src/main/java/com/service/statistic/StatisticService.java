@@ -23,4 +23,5 @@ public interface StatisticService {
     List<Statistic> getStatisticsByDateAndUserId(Date date,int userId);
     List<Statistic> getStatisticByUserIdGroupByDQuestionId(int userId);
     List<Statistic> getStatisticsByQuestionIdAndUserId(int questionId,int userId);
+    List<Statistic> getStatisticForTests(int id);
 }
