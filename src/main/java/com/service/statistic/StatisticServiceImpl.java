@@ -45,7 +45,7 @@ public class StatisticServiceImpl implements StatisticService {
 
     @Override
     public List<Statistic> getFilteredStatisticByTestId(int id) {
-        return staticRepo.findStatisticByTestUser(id);
+        return staticRepo.findStatisticByTestId(id);
     }
 
     @Override
@@ -53,10 +53,34 @@ public class StatisticServiceImpl implements StatisticService {
         return staticRepo.getAllStatisticByQuestionId(id);
     }
 
-    public List<Statistic> getFilteredStatisticByTestUser(int id) { return staticRepo.findStatisticByTestUser(id);
+    @Override
+    public List<Statistic> getAll() {
+        return staticRepo.findAll();
     }
 
-    public List<Statistic> findAll(){ return staticRepo.findAll();}
+    @Override
+    public List<Statistic> getStatisticsGroupByDateWhereTestIdAndUserId(int testId, int userId) {
+        return staticRepo.getStatisticsGroupByDateWhereTestIdAndUserId(testId,userId);
+    }
+
+    @Override
+    public List<Integer> getDistinctTestByUser(int id) {
+        return staticRepo.getDistinctTestByUser(id);
+    }
+
+//    @Override
+//    public List<Statistic> getStatisticsByQuestionId(int questionId) {
+//       return staticRepo.getStatisticsByQuestionId(questionId);
+//    }
+
+    @Override
+    public int getCountUserCompletedTest(int userId, int questionId) {
+        return staticRepo.getCountUserCompletedTest(userId, questionId);
+    }
+
+    public List<Statistic> findAll() {
+        return staticRepo.findAll();
+    }
 
     @Override
     public List<Statistic> getStatisticByUserIdGroupByDate(int userId) {
@@ -75,7 +99,7 @@ public class StatisticServiceImpl implements StatisticService {
 
     @Override
     public List<Statistic> getStatisticsByQuestionIdAndUserId(int questionId, int userId) {
-        return staticRepo.getStatisticsByQuestionIdAndUserId(questionId,userId);
+        return staticRepo.getStatisticsByQuestionIdAndUserId(questionId, userId);
     }
 
 }

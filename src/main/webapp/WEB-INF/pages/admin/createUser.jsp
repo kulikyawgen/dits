@@ -1,26 +1,73 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%String title = "DITS";%>
 <html>
 <head>
-    <title>Create User</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <title><%=title%>
+    </title>
 </head>
 <body>
-<div class="CreateUser">
-    <form method="post" action="/admin/createUser" modelAttribute="user">
-        <table>
-            First Name:<input type="text" name="firstName"/> <br>
-            First Name:<input type="text" name="lastName"/> <br>
-            Login: <input type="text" name="login"/> <br>
-            Password: <input type="password" name="password"/> <br>
-            Role: <br>
-        <%--    <c:forEach var="role" items="${allRoles}">
-                <input type="checkbox" name="roles" value="${role.name}"> ${role.name} <br>
-            </c:forEach> <br>--%>
-            <input type="submit" value="save"/>
-        </table>
-    </form>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
 
+<div class="container">
+    <div class="row m-5">
+        <div class="col text-center">
+            <h1 class="text-primary"><%=title%>
+            </h1>
+        </div>
+    </div>
+    <div class="row m-2 align-items-center">
+        <div class="col-sm-12 col-md-5">
+            <img src="https://lh4.googleusercontent.com/hiq9rrHzKdGFT2fRNKUO39NHMnLOXNWmlh_LSj-Tq-Mu36hPgcL1mjKUbgY3Hs65EZIwcxHHkB0ZIU5LWaLiLIupl3wsJZLxWz_ceFRhNiS4iqCw4rs8OOZDGSkfxzTlJmz-WAupOVsy7pwNow"
+                 class="img-fluid"
+                 alt="logo">
+        </div>
+        <div class="col-sm-12 col-md-7 pl-4">
+            <div class="row m-2">
+                <div class="col-sm-12">
+                    <form method="post" action="/admin/createUser" modelAttribute="user">
+                        <table>
+                            <p><label>First Name: </label> <input type="text" name="firstName"/></p>
+                            <p><label>Last Name: </label><input type="text" name="lastName"/></p>
+                            <p><label>Email: </label><input type="email" name="email"/></p>
+                            <p><label>Login: </label> <input type="text" name="login"/></p>
+                            <p><label>Password: </label> <input type="password" name="password"/></p>
+                            <p>
+                                <label>Роль:</label>
+<%--                                <select name="role">--%>
+                                    <c:forEach items="${allRoles}" var="role">
+                                        <input type="checkbox" name="role" value="${role.name}"> ${role.name}
+<%--                                        <option value="${role.role_id}" label="${role.name}"/>--%>
+                                    </c:forEach>
+<%--                                </select>--%>
+
+                            </p>
+                            <input type="submit" value="Сохранить"/>
+                        </table>
+                    </form>
+                </div>
+            </div>
+            <div class="row m-2">
+                <div class="col-sm-12">
+                    <a href="<c:url value="/admin"/>" class="btn btn-primary text-light">Назад </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

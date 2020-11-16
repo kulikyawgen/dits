@@ -1,7 +1,6 @@
 package com.service.test;
 
 import com.model.Test;
-import com.model.ViewStatistic;
 import org.springframework.data.domain.Page;
 
 import java.util.List;

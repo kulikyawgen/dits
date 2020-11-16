@@ -6,6 +6,8 @@ import com.service.literature.LiteratureService;
 import com.service.statistic.StatisticService;
 import com.service.test.TestService;
 import com.service.user.UserService;
+import com.service.viewStatistic.ViewStatisticService;
+import com.service.viewStatistic.ViewStatisticServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,10 +20,14 @@ import java.util.*;
 @RequestMapping("/statistic")
 public class StatisticController {
 
+
     private final LiteratureService literatureService;
     private final LinkService linkService;
     private final UserService userService;
     private final PersonalStatisticService personalStatisticService;
+
+//    @Autowired
+//    private ViewStatisticServiceImpl viewStatisticService;
 
     @Autowired
     public StatisticController(StatisticService statisticService, LiteratureService literatureService,
@@ -33,42 +39,44 @@ public class StatisticController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public String statisticPage(){
-        return "statistics/statistic" ;
-    }
 
-
-    @GetMapping("/usersStatistic")
-    public String usersStatistic(Model model) {
-        model.addAttribute("users", userService.getAllUser());
-        return "statistics/usersStatistic";
-    }
-
-    @GetMapping("/questionStatistic")
-    public String questionStatistic(Model model){
-        return "statistics/questionStatistic";
-    }
-
-    @GetMapping("/testStatistic")
-    public String testStatistic(Model model){
-        return "statistics/testStatistic";
-    }
+//    @GetMapping
+//    public String statisticPage() {
+//        return "statistics/statistic";
+//    }
+//
+//    @GetMapping("/usersStatistic")
+//    public String usersStatistic(Model model) {
+//        List<ViewStatistic> listToView = viewStatisticService.res();
+//        model.addAttribute("listToView", listToView);
+//        return "statistics/usersStatistic";
+//    }
+//
+//    @GetMapping("/questionStatistic")
+//    public String questionStatistic(Model model) {
+//        List<ViewStatistic> questionStatisticList = viewStatisticService.getQuestionStatisticList();
+//        model.addAttribute("statistics", questionStatisticList);
+//        return "statistics/questionStatistic";
+//    }
+//
+//    @GetMapping("/testStatistic")
+//    public String testStatistic(Model model) {
+//        List<ViewStatistic> testStatisticList = viewStatisticService.getTestStatisticList();
+//        model.addAttribute("testStat", testStatisticList);
+//        return "statistics/testStatistic";
+//    }
 
     /**
-     *
      * @param model
-     * @return
-     *
-     * Данный метод принимает дату прохождения конкретного теста и передает на view модель статистики
+     * @return Данный метод принимает дату прохождения конкретного теста и передает на view модель статистики
      * с информацией о прохождении теста залогированным юзером;
      */
     @GetMapping("/test/final")
-    public String getStatistic(Model model, HttpSession session){
+    public String getStatistic(Model model, HttpSession session) {
 //        TODO userId security
         List<Statistic> statistics = (List<Statistic>) session.getAttribute("statistics");
         List<PersonalStatisticByTest> statisticView = new ArrayList<>();
-        int numOfCorrect=0;
+        int numOfCorrect = 0;
 //        Fill list of statisticView (Name of question, is correct, list of literature, list of links)
         for (Statistic statistic : statistics) {
             PersonalStatisticByTest pst = new PersonalStatisticByTest();
@@ -81,37 +89,31 @@ public class StatisticController {
             }
             pst.setLiterature(allLiteratureByQuestionId);
             pst.setLinkToLiterature(allLinks);
-            if(statistic.isCorrect()){
+            if (statistic.isCorrect()) {
                 numOfCorrect++;
             }
             statisticView.add(pst);
         }
 
-        model.addAttribute("statistics",statisticView);
-        model.addAttribute("percent",Math.round(((double)numOfCorrect/statistics.size()) *100));
-        model.addAttribute("numOfCorrect",numOfCorrect);
-        model.addAttribute("numOfQuestion",statistics.size());
+        model.addAttribute("statistics", statisticView);
+        model.addAttribute("percent", Math.round(((double) numOfCorrect / statistics.size()) * 100));
+        model.addAttribute("numOfCorrect", numOfCorrect);
+        model.addAttribute("numOfQuestion", statistics.size());
         session.removeAttribute("statistics");
         return "/user/userStatistic/testStatistic";
     }
 
 
     /**
-     *
      * @param model
-     * @return
-     *
-     * Данный метод передает на view статистику для каждого пройденого теста для зологированного
+     * @return Данный метод передает на view статистику для каждого пройденого теста для зологированного
      * юзера;
      */
     @GetMapping("/users")
-    public String statisticByUser(Model model){
-        model.addAttribute("statistics",personalStatisticService.getPersonalStatistic());
+    public String statisticByUser(Model model) {
+        model.addAttribute("statistics", personalStatisticService.getPersonalStatistic(21));
         return "/user/userStatistic/userStatistic";
     }
-
-
-
 
 
 }

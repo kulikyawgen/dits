@@ -39,36 +39,23 @@
         <div class="col-sm-12 col-md-7 pl-4">
             <div class="row m-2">
                 <div class="col-sm-12">
-                    <form action="/admin/createTest" method="post">
-                        <p>
-                            <input type="text" required list="topics" placeholder="choose topic" id="topic" name="topic">
-                            <datalist id="topics" name="nameTopic">
-                                <c:forEach items="${topics}" var="topic">
-                                    <option value="${topic.name}"/>
-                                </c:forEach>
-                            </datalist>
-                        </p>
-
-                        <p>
-                            <input type="text" required list="tests" placeholder="input a new tests name" id="nameTest" name="nameTest">
-                            <datalist id="tests" >
-                                <c:forEach items="${tests}" var="test">
-                                    <option value="${test.name}"/>
-                                </c:forEach>
-                            </datalist>
-                        </p>
-                        <p><textarea placeholder="description" name="descriptionTest"></textarea></p>
-                        <input type="submit" value="save"> <br>
-                    </form>
+                    <a href="<c:url value="/admin/createUser"/>" class="btn btn-primary text-light">Создать нового пользователя</a>
                 </div>
             </div>
-            <div class="col-sm-12">
-                <%--                    TODO userId security--%>
-                <a href="<c:url value="/admin"/>" class="btn btn-primary text-light">Назад </a>
+            <div class="row m-2">
+                <div class="col-sm-12">
+<%--                    TODO userId security--%>
+                    <a href="<c:url value="/admin/createTest"/>" class="btn btn-primary text-light">Создать новый тест</a>
+                </div>
+            </div>
+            <div class="row m-2">
+                <div class="col-sm-12">
+                    <%--                    TODO userId security--%>
+                    <a href="<c:url value="/admin/statistic"/>" class="btn btn-primary text-light">Просмотреть статистику </a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 </body>
 </html>

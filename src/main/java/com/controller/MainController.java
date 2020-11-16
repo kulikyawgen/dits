@@ -3,13 +3,17 @@ package com.controller;
 import com.model.Answer;
 import com.model.Test;
 import com.model.Topic;
+import com.model.User;
 import com.service.answer.AnswerService;
 import com.service.question.QuestionService;
 import com.service.test.TestService;
 import com.service.topic.TopicService;
+import com.service.user.UserService;
+import com.service.user.UserServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +25,10 @@ import java.util.List;
 @Controller
 @RequestMapping("/")
 public class MainController {
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private final TestService testService;
     private final AnswerService answerService;
@@ -40,7 +48,7 @@ public class MainController {
                 case "ROLE_USER":
                     return "/user/indexUser";
                 case "ROLE_ADMIN":
-                    return "/admin";
+                    return "redirect:/admin";
                 case "ROLE_TUTOR":
                     return "/tutor";
             }

@@ -1,12 +1,10 @@
 package com.service.viewStatistic;
 
-import com.model.Question;
-import com.model.Statistic;
-import com.model.Test;
-import com.model.ViewStatistic;
-import com.service.question.QuestionServiceImpl;
-import com.service.statistic.StatisticServiceImpl;
-import com.service.test.TestServiceImpl;
+import com.model.*;
+import com.service.question.QuestionService;
+import com.service.statistic.StatisticService;
+import com.service.test.TestService;
+import com.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +15,16 @@ import java.util.List;
 @Service
 public class ViewStatisticServiceImpl implements ViewStatisticService {
     @Autowired
-    private TestServiceImpl testServiceimpl;
+    private TestService testService;
 
     @Autowired
-    private StatisticServiceImpl statisticService;
+    private StatisticService statisticService;
 
     @Autowired
-    private QuestionServiceImpl questionService;
+    private QuestionService questionService;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public List<ViewStatistic> getQuestionStatisticList() {
@@ -64,7 +65,7 @@ public class ViewStatisticServiceImpl implements ViewStatisticService {
     public List<ViewStatistic> getTestStatisticList() {
         List<ViewStatistic> testInfoList = new ArrayList<>();
         ViewStatistic viewStatistic;
-        List<Test> allTests = testServiceimpl.getAllTests();
+        List<Test> allTests = testService.getAllTests();
         for (Test test : allTests) {
             viewStatistic = getTestInfo(test);
             if (viewStatistic != null) {
@@ -90,37 +91,45 @@ public class ViewStatisticServiceImpl implements ViewStatisticService {
         return viewStatistic;
     }
 
+
+    private int countPercentOfTrue(List<Statistic> list) {
+        int numOfList = list.size();
+        int numOfCorrect = 0;
+        for (Statistic statistic : list) {
+            if (statistic.isCorrect()) {
+                numOfCorrect++;
+            }
+        }
+        return (int) Math.round(((double) numOfCorrect) / numOfList * 100);
+    }
+
     @Override
     public List<ViewStatistic> getUserTestStatisticList() {
         ViewStatistic viewStatistic;
         List<ViewStatistic> userTestInfoList = new ArrayList<>();
-        List<Statistic> allStatistic = statisticService.findAll();
-        for (Statistic statistic : allStatistic) {
-            viewStatistic = getUserTestInfo(statistic);
-            if (viewStatistic != null){
-                userTestInfoList.add(viewStatistic);
+        List<User> allUser = userService.getAllUser();
+        for (User user : allUser) {
+            List<Integer> distinctTestByUser = statisticService.getDistinctTestByUser(user.getUserId());
+            if (!distinctTestByUser.isEmpty()) {
+                for (Integer integer : distinctTestByUser) {
+                    List<Statistic> statisticsGroupByDateWhereTestIdAndUserId = statisticService.getStatisticsGroupByDateWhereTestIdAndUserId(integer, user.getUserId());
+                    double avgPercent = 0;
+                    int numOfCompleted = statisticsGroupByDateWhereTestIdAndUserId.size();
+                    for (Statistic statistic : statisticsGroupByDateWhereTestIdAndUserId) {
+                        List<Statistic> statisticsByDateAndUserId = statisticService.getStatisticsByDateAndUserId(statistic.getDate(), user.getUserId());
+                        countPercentOfTrue(statisticsByDateAndUserId);
+                        avgPercent += countPercentOfTrue(statisticsByDateAndUserId);;
+                    }
+                    avgPercent = avgPercent / statisticsGroupByDateWhereTestIdAndUserId.size();
+                    viewStatistic = new ViewStatistic();
+                    viewStatistic.setLogin(user.getLogin());
+                    viewStatistic.setName(testService.getOne(integer).getName());
+                    viewStatistic.setCountCompleted(numOfCompleted);
+                    viewStatistic.setPercent((int) avgPercent);
+                    userTestInfoList.add(viewStatistic);
+                }
             }
         }
-        userTestInfoList.sort(Comparator.comparing(ViewStatistic::getLogin));
         return userTestInfoList;
-    }
-
-    @Override
-    public ViewStatistic getUserTestInfo(Statistic statistic) {
-        ViewStatistic viewStatistic;
-         List<Statistic> filteredStatisticByTestUser = statisticService.
-                 getFilteredStatisticByTestUser(statistic.getUser().getUserId());
-         if (!filteredStatisticByTestUser.isEmpty()){
-//             statistic
-//             viewStatistic = new ViewStatistic();
-//             viewStatistic.setName(statistic.getUser().getLogin());
-//             viewStatistic.setCountCompleted();
-         }
-        return null;
-    }
-
-    public List<Statistic> getst() {
-        final List<Statistic> filteredStatisticByTestId = statisticService.getFilteredStatisticByTestId(1);
-        return filteredStatisticByTestId;
     }
 }

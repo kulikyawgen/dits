@@ -11,6 +11,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class TopicServiceImpl implements TopicService {
@@ -48,5 +50,15 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public void deleteById(int id) {
         topicRepository.deleteById(id);
+    }
+
+    @Override
+    public Topic getByName(String name) {
+        return topicRepository.findByName(name);
+    }
+
+    @Override
+    public List<Topic> getAll() {
+        return topicRepository.findAll();
     }
 }

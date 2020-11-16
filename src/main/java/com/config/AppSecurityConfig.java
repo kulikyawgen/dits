@@ -28,21 +28,30 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.authenticationProvider(authenticationProvider);
+        auth.authenticationProvider(authenticationProvider);
 
-                auth.inMemoryAuthentication()
-                .withUser("user")
-                .password(passwordEncoder().encode("1234"))
-                .roles("USER");
+//                auth.inMemoryAuthentication()
+//                .withUser("user")
+//                .password(passwordEncoder().encode("1234"))
+//                .roles("USER");
+
+//        auth.inMemoryAuthentication()
+//                .withUser("admin")
+//                .password(passwordEncoder().encode("1234"))
+//                .roles("ADMIN");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
+                .and()
+                .authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
-        .and()
-        .formLogin()
-        .defaultSuccessUrl("/");
+                .and()
+                .formLogin()
+                .defaultSuccessUrl("/")
+                .and()
+                .logout().permitAll();
     }
 }

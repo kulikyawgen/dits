@@ -16,8 +16,6 @@ public interface ViewStatisticService {
 
     List<ViewStatistic> getQuestionStatisticList();
 
-    ViewStatistic getUserTestInfo(Statistic statistic);
-
     List<ViewStatistic> getUserTestStatisticList();
 
 

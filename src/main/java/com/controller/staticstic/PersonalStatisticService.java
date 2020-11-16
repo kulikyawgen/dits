@@ -30,12 +30,12 @@ public class PersonalStatisticService {
         this.userService = userService;
     }
 
-    public List<PersonalStatisticForUser> getPersonalStatistic(){
+    public List<PersonalStatisticForUser> getPersonalStatistic(int id){
         //        TODO id from security
-        List<Statistic> groupedStatistics = statisticService.getStatisticByUserIdGroupByDQuestionId(21);
+        List<Statistic> groupedStatistics = statisticService.getStatisticByUserIdGroupByDQuestionId(id);
         List<PersonalStatisticForUser> psu = new ArrayList<>();
 //        TODO id from security
-        User user = userService.getUserById(21);
+        User user = userService.getUserById(id);
         for (Statistic statistic : groupedStatistics) {
             int numOfCorrect=0;
             int completed = 0;
@@ -47,6 +47,37 @@ public class PersonalStatisticService {
                 }
             }
             completed=statisticsByOneQuestion.size();
+            double percent = Math.round(((double)numOfCorrect/completed)*100);
+
+
+            PersonalStatisticForUser psuModel = new PersonalStatisticForUser();
+            psuModel.setFio(user.getFirstName()+" " + user.getLastName());
+            psuModel.setQuestion(statistic.getQuestion().getDescription());
+            psuModel.setNameOfTest(testService.getOne(statistic.getQuestion().getTest().getTestId()).getName());
+            psuModel.setCompleted(completed);
+            psuModel.setPercent(percent);
+            psu.add(psuModel);
+        }
+        return psu;
+
+    } public List<PersonalStatisticForUser> getPersonalStatisticByUsers(int id){
+        //        TODO id from security
+
+        List<Statistic> groupedStatistics = statisticService.getStatisticByUserIdGroupByDate(id);
+        List<PersonalStatisticForUser> psu = new ArrayList<>();
+//        TODO id from security
+        User user = userService.getUserById(id);
+        for (Statistic statistic : groupedStatistics) {
+            int numOfCorrect=0;
+            int completed = 0;
+//            TODO id from security
+            List<Statistic> statisticsByOneTest = statisticService.getStatisticsByDateAndUserId(statistic.getDate(), id);
+            for (Statistic statistic1 : statisticsByOneTest) {
+                if(statistic1.isCorrect()){
+                    numOfCorrect++;
+                }
+            }
+            completed=statisticsByOneTest.size();
             double percent = Math.round(((double)numOfCorrect/completed)*100);
 
 

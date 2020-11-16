@@ -1,15 +1,25 @@
 package com.service.user;
 
-import com.model.Link;
 import com.model.User;
 import com.repository.user.UserRepo;
+import com.service.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class UserServiceImp implements UserService{
+@Transactional
+public class UserServiceImp implements UserService {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private RoleService roleServiceImp;
+
     @Autowired
     private UserRepo userRepo;
 
@@ -20,6 +30,8 @@ public class UserServiceImp implements UserService{
 
     @Override
     public void addUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(Arrays.asList(roleServiceImp.findByName("USER")));
         userRepo.save(user);
     }
 
@@ -29,7 +41,8 @@ public class UserServiceImp implements UserService{
     }
 
     @Override
-    public void updateUser(User user) {userRepo.saveAndFlush(user);
+    public void updateUser(User user) {
+        userRepo.saveAndFlush(user);
     }
 
     @Override
