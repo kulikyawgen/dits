@@ -65,7 +65,6 @@ public class StatisticController {
      */
     @GetMapping("/test/final")
     public String getStatistic(Model model, HttpSession session){
-//        TODO userId security
         List<Statistic> statistics = (List<Statistic>) session.getAttribute("statistics");
         List<PersonalStatisticByTest> statisticView = new ArrayList<>();
         int numOfCorrect=0;

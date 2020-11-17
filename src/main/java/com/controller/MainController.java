@@ -1,19 +1,9 @@
 package com.controller;
 
-import com.model.Answer;
-import com.model.Test;
-import com.repository.statistic.StatisticRepo;
-import com.service.answer.AnswerService;
-import com.service.question.QuestionService;
-import com.service.test.TestService;
-import com.service.topic.TopicService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -21,17 +11,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/")
 public class MainController {
-    Integer perem = 10;
-
-
-    private final TestService testService;
-    private final AnswerService answerService;
-
-    @Autowired
-    public MainController(TestService testService, AnswerService answerService) {
-        this.testService = testService;
-        this.answerService = answerService;
-    }
 
 
     @GetMapping("/")
@@ -42,8 +21,7 @@ public class MainController {
                 case "ROLE_USER":
                     return  "redirect:/user/main";
                 case "ROLE_ADMIN":
-//                    TODO : Admin index page
-                    return "/statistics/statistic";
+                    return "redirect:/admin";
                 case "ROLE_TUTOR":
                     return "/indexTutor";
             }

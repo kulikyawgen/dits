@@ -102,5 +102,13 @@ public class StatisticServiceImpl implements StatisticService {
         return staticRepo.getStatisticsByQuestionIdAndUserId(questionId, userId);
     }
 
+    @Override
+    public List<Statistic> addListOfStatistics(List<Statistic> statisticList) {
+        for (Statistic statistic : statisticList) {
+            this.addStatistic(statistic);
+        }
+        return statisticList;
+    }
+
 
 }

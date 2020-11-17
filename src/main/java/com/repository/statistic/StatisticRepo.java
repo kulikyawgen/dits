@@ -23,7 +23,7 @@ public interface StatisticRepo extends JpaRepository<Statistic, Integer> {
     @Query("from Statistic s where s.user.userId = :userId ")
     List<Statistic> findStatisticByTestUser(@Param("userId") int userId);
 
-   @Query("from Statistic s where s.user.userId=?1 group by s.date")
+    @Query("from Statistic s where s.user.userId=?1 group by s.date")
     List<Statistic> getStatisticByUserIdGroupByDate(int userId);
 
     @Query("from Statistic s where s.user.userId=?1 group by s.question.questionId")
@@ -38,8 +38,6 @@ public interface StatisticRepo extends JpaRepository<Statistic, Integer> {
     @Query("select count(ALL s) from Statistic s where " +
             "s.question.questionId=:questionId and s.user.userId =:userId ")
     int getCountUserCompletedTest(@Param("userId") int userId, @Param("questionId") int questionId);
-
-//    List<Statistic> getStatisticsByQuestionId(int questionId);
 
     @Query("select distinct q.test.testId from Statistic s left join Question q on s.question.questionId = q.questionId where s.user.userId =:id")
     List<Integer> getDistinctTestByUser(@Param("id") int id);
