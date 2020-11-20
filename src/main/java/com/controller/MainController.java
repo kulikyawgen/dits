@@ -3,8 +3,11 @@ package com.controller;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -55,5 +58,18 @@ public class MainController {
 
     }
 
+    @GetMapping("/login")
+    public String getLogin(@RequestParam(required = false) String error, Model model){
+        if(error==null){
+            return "login";
+        }
+        model.addAttribute("error","error");
+        return "login";
+    }
+    @GetMapping("/registration")
+    public String registration(){
+        return "redirect:/login";
+
+    }
 
 }

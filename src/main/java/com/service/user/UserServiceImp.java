@@ -29,10 +29,10 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void addUser(User user) {
+    public User addUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Arrays.asList(roleServiceImp.findByName("USER")));
         userRepo.save(user);
+        return user;
     }
 
     @Override
