@@ -5,7 +5,6 @@ package com.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -23,7 +22,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(value = "com.repository")
-@PropertySource("classpath:properties_local.properties")
+@PropertySource("classpath:properties.properties")
 public class AppHibernateConfig {
 
     @Autowired

@@ -1,28 +1,38 @@
 package com.controller.admin;
 
+import com.dto.StatisticDto;
+import com.model.Role;
 import com.model.Test;
 import com.model.User;
-import com.model.ViewStatistic;
-import com.repository.test.TestRepository;
-import com.repository.topic.TopicRepository;
 import com.service.role.RoleService;
 import com.service.test.TestService;
 import com.service.topic.TopicService;
 import com.service.user.UserService;
-import com.service.viewStatistic.ViewStatisticServiceImpl;
+import com.service.statistic.statisticDto.StatisticDtoService;
+import com.validator.UserRegistrationValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-//    TODO соблюсти принцип DI!!!
+
     @Autowired
-    private ViewStatisticServiceImpl viewStatisticService;
+    @Qualifier("userRegistrationValidator")
+    private UserRegistrationValidator userRegistrationValidator;
+
+    @Autowired
+    private StatisticDtoService statisticDtoService;
 
     @Autowired
     private UserService userServiceImp;
@@ -36,7 +46,6 @@ public class AdminController {
     @Autowired
     private TestService testRepository;
 
-
     @GetMapping()
     public String welcomeAdmin() {
         return "admin/indexAdmin";
@@ -49,8 +58,21 @@ public class AdminController {
     }
 
     @PostMapping("/createUser")
-    public String createUser(@ModelAttribute User user) {
-        userServiceImp.addUser(user);
+    public String createUser(@ModelAttribute @Validated User user,
+                             BindingResult bindingResult,
+                             @RequestParam("role") ArrayList<String> role) {
+        userRegistrationValidator.validate(user, bindingResult);
+        System.out.println(role);
+        if (bindingResult.hasErrors()) {
+            return "admin/createUser";
+        } else {
+            List<Role> roles = role.stream()
+                    .map(s -> roleServiceImp.findByName(s))
+                    .collect(Collectors.toList());
+
+            user.setRoles(roles);
+            userServiceImp.addUser(user);
+        }
         return "redirect:/admin";
     }
 
@@ -62,10 +84,11 @@ public class AdminController {
     }
 
     @PostMapping("/createTest")
-    public String createTest(@RequestParam String topic,
-                             @RequestParam String nameTest,
-                             @RequestParam String descriptionTest) {
-//        TODO не работает код
+ public String createTest(
+            @RequestParam String topic,
+            @RequestParam String nameTest,
+            @RequestParam String descriptionTest
+   ) {
         Test newTest = new Test();
         newTest.setName(nameTest);
         newTest.setDescription(descriptionTest);
@@ -82,24 +105,22 @@ public class AdminController {
 
     @GetMapping("/statistic/usersStatistic")
     public String usersStatistic(Model model) {
-        List<ViewStatistic> listToView = viewStatisticService.getUserTestStatisticList();
+        List<StatisticDto> listToView = statisticDtoService.getUserTestStatisticList();
         model.addAttribute("listToView", listToView);
         return "/admin/statistics/usersStatistic";
     }
 
     @GetMapping("/statistic/questionStatistic")
     public String questionStatistic(Model model) {
-        List<ViewStatistic> questionStatisticList = viewStatisticService.getQuestionStatisticList();
+        List<StatisticDto> questionStatisticList = statisticDtoService.getQuestionStatisticList();
         model.addAttribute("statistics", questionStatisticList);
         return "/admin/statistics/questionStatistic";
     }
 
     @GetMapping("/statistic/testStatistic")
     public String testStatistic(Model model) {
-        List<ViewStatistic> testStatisticList = viewStatisticService.getTestStatisticList();
+        List<StatisticDto> testStatisticList = statisticDtoService.getTestStatisticList();
         model.addAttribute("testStat", testStatisticList);
         return "/admin/statistics/testStatistic";
     }
-
-
 }

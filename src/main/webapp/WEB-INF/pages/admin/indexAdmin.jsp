@@ -1,9 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%String title = "DITS";%>
+<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -39,19 +41,17 @@
         <div class="col-sm-12 col-md-7 pl-4">
             <div class="row m-2">
                 <div class="col-sm-12">
-                    <a href="<c:url value="/admin/createUser"/>" class="btn btn-primary text-light">Создать нового пользователя</a>
+                    <a href="<c:url value="/admin/createUser"/>" class="btn btn-primary text-light"><spring:message code="newUser" /></a>
                 </div>
             </div>
             <div class="row m-2">
                 <div class="col-sm-12">
-<%--                    TODO userId security--%>
-                    <a href="<c:url value="/admin/createTest"/>" class="btn btn-primary text-light">Создать новый тест</a>
+                    <a href="<c:url value="/admin/createTest"/>" class="btn btn-primary text-light"><spring:message code="newTest" /></a>
                 </div>
             </div>
             <div class="row m-2">
                 <div class="col-sm-12">
-                    <%--                    TODO userId security--%>
-                    <a href="<c:url value="/admin/statistic"/>" class="btn btn-primary text-light">Просмотреть статистику </a>
+                    <a href="<c:url value="/admin/statistic"/>" class="btn btn-primary text-light"><spring:message code="viewStatistics"/> </a>
                 </div>
             </div>
         </div>

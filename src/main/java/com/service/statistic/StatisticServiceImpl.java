@@ -68,11 +68,6 @@ public class StatisticServiceImpl implements StatisticService {
         return staticRepo.getDistinctTestByUser(id);
     }
 
-//    @Override
-//    public List<Statistic> getStatisticsByQuestionId(int questionId) {
-//       return staticRepo.getStatisticsByQuestionId(questionId);
-//    }
-
     @Override
     public int getCountUserCompletedTest(int userId, int questionId) {
         return staticRepo.getCountUserCompletedTest(userId, questionId);

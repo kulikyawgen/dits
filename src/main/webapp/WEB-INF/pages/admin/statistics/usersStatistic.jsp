@@ -1,9 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.model.Topic" %>
-<%@ page import="org.springframework.data.domain.Page" %>
-<%@ page import="java.util.List" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%String title = "Статистика пользвователей";%>
 <html>
 <head>
     <meta charset="utf-8">
@@ -12,7 +9,7 @@
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
           crossorigin="anonymous">
-    <title><%=title%>
+    <title><spring:message code="usersStatistics"/>
     </title>
 </head>
 <body>
@@ -29,7 +26,7 @@
 <div class="container">
     <div class="row m-5">
         <div class="col text-center">
-            <h1 class="text-primary"><%=title%>
+            <h1 class="text-primary"><spring:message code="usersStatistics"/>
             </h1>
         </div>
     </div>
@@ -37,10 +34,10 @@
         <table class="table">
             <thead class="thead-dark">
             <tr>
-                <th scope="col">Логин</th>
-                <th scope="col">Название теста</th>
-                <th scope="col">Пройдено всего раз</th>
-                <th scope="col">Процент правильных ответов</th>
+                <th scope="col"><spring:message code="login"/></th>
+                <th scope="col"><spring:message code="testName"/></th>
+                <th scope="col"><spring:message code="finishedTimes"/></th>
+                <th scope="col"><spring:message code="percentageOfCorrectAnswers"/></th>
             </tr>
             </thead>
             <c:forEach items="${listToView}" var="stat">
@@ -54,7 +51,7 @@
         </table>
     </div>
     <div style="text-align: center">
-        <a href="<c:url value="/admin/statistic"/>" class="btn btn-primary text-light">Назад </a>
+        <a href="<c:url value="/admin/statistic"/>" class="btn btn-primary text-light"><spring:message code="back"/> </a>
     </div>
 </div>
 </body>

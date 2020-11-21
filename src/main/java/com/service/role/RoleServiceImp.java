@@ -3,10 +3,13 @@ package com.service.role;
 import com.model.Role;
 import com.repository.role.RoleRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Transient;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 @Service
+@Transactional
 public class RoleServiceImp implements RoleService {
     @Autowired
     private RoleRepo roleRepo;

@@ -52,4 +52,5 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
         .formLogin()
         .defaultSuccessUrl("/");
     }
+
 }

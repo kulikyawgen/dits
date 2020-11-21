@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%String title = "DITS";%>
 <html>
 <head>
@@ -41,7 +42,8 @@
                 <div class="col-sm-12">
                     <form action="/admin/createTest" method="post">
                         <p>
-                            <input type="text" required list="topics" placeholder="choose topic" id="topic" name="topic">
+                            <input type="text" required list="topics" placeholder="choose topic" id="topic"
+                                   name="topic">
                             <datalist id="topics" name="nameTopic">
                                 <c:forEach items="${topics}" var="topic">
                                     <option value="${topic.name}"/>
@@ -50,21 +52,23 @@
                         </p>
 
                         <p>
-                            <input type="text" required list="tests" placeholder="input a new tests name" id="nameTest" name="nameTest">
-                            <datalist id="tests" >
+                            <input type="text" required list="tests" placeholder="input a new tests name" id="nameTest"
+                                   name="nameTest">
+                            <datalist id="tests">
                                 <c:forEach items="${tests}" var="test">
                                     <option value="${test.name}"/>
                                 </c:forEach>
                             </datalist>
                         </p>
-                        <p><textarea placeholder="description" name="descriptionTest"></textarea></p>
-                        <input type="submit" value="save"> <br>
+                        <p><textarea placeholder="<spring:message code="description"/>"
+                                     name="descriptionTest"></textarea></p>
+                        <button type="submit" class="btn btn-primary text-light"><spring:message
+                                code="create"/></button>
                     </form>
                 </div>
             </div>
             <div class="col-sm-12">
-                <%--                    TODO userId security--%>
-                <a href="<c:url value="/admin"/>" class="btn btn-primary text-light">Назад </a>
+                <a href="<c:url value="/admin"/>" class="btn btn-primary text-light"><spring:message code="back"/> </a>
             </div>
         </div>
     </div>

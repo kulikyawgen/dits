@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%String title = "DITS";%>
 <html>
 <head>
@@ -41,29 +43,30 @@
                 <div class="col-sm-12">
                     <form method="post" action="/admin/createUser" modelAttribute="user">
                         <table>
-                            <p><label>First Name: </label> <input type="text" name="firstName"/></p>
-                            <p><label>Last Name: </label><input type="text" name="lastName"/></p>
-                            <p><label>Email: </label><input type="email" name="email"/></p>
-                            <p><label>Login: </label> <input type="text" name="login"/></p>
-                            <p><label>Password: </label> <input type="password" name="password"/></p>
-                            <p>
-                                <label>Роль:</label>
-<%--                                <select name="role">--%>
-                                    <c:forEach items="${allRoles}" var="role">
-                                        <input type="checkbox" name="role" value="${role.name}"> ${role.name}
-<%--                                        <option value="${role.role_id}" label="${role.name}"/>--%>
-                                    </c:forEach>
-<%--                                </select>--%>
-
+                            <p><label><spring:message code="name"/>: </label> <input type="text" name="firstName"/>
                             </p>
-                            <input type="submit" value="Сохранить"/>
+                            <p><label><spring:message code="lastname"/>: </label><input type="text" name="lastName"/>
+                            </p>
+                            <p><label><spring:message code="email"/>: </label><input type="email" name="email"/></p>
+                            <p><label><spring:message code="login"/>: </label> <input type="text" name="login"/></p>
+                            <p><label><spring:message code="password"/>: </label> <input type="password"
+                                                                                         name="password"/>
+                            <p>
+                                <label><spring:message code="role"/>:</label>
+                                <c:forEach items="${allRoles}" var="role">
+                                    <input type="checkbox" name="role" value="${role.name}"> ${role.name}
+                                </c:forEach>
+                            </p>
+                            <button type="submit" class="btn btn-primary text-light"><spring:message
+                                    code="create"/></button>
                         </table>
                     </form>
                 </div>
             </div>
             <div class="row m-2">
                 <div class="col-sm-12">
-                    <a href="<c:url value="/admin"/>" class="btn btn-primary text-light">Назад </a>
+                    <a href="<c:url value="/admin"/>" class="btn btn-primary text-light"><spring:message
+                            code="back"/> </a>
                 </div>
             </div>
         </div>

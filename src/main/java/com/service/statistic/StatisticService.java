@@ -1,6 +1,5 @@
 package com.service.statistic;
 
-import com.model.Link;
 import com.model.Statistic;
 
 import java.util.Date;

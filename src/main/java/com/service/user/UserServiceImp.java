@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -31,7 +32,7 @@ public class UserServiceImp implements UserService {
     @Override
     public void addUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Arrays.asList(roleServiceImp.findByName("USER")));
+  //      user.setRoles(Arrays.asList(roleServiceImp.findByName("USER")));
         userRepo.save(user);
     }
 
@@ -54,11 +55,5 @@ public class UserServiceImp implements UserService {
     public List<User> getAllUser() {
         return userRepo.findAll();
     }
-
-    @Override
-    public void createUser(User user) {
-
-    }
-
 
 }

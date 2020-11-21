@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%String title = "DITS Статистика";%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
     <meta charset="utf-8">
@@ -9,7 +9,7 @@
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
           crossorigin="anonymous">
-    <title><%=title%>
+    <title><spring:message code="statistic"/>
     </title>
 </head>
 <body>
@@ -26,7 +26,7 @@
 <div class="container">
     <div class="row m-5">
         <div class="col text-center">
-            <h1 class="text-primary"><%=title%>
+            <h1 class="text-primary"><spring:message code="statistic"/>
             </h1>
         </div>
     </div>
@@ -39,28 +39,26 @@
         <div class="col-sm-12 col-md-7 pl-4">
             <div class="row m-2">
                 <div class="col-sm-12">
-                    <a href="<c:url value="/admin/statistic/testStatistic"/>" class="btn btn-primary text-light">Статистика по
-                        тестам</a>
+                    <a href="<c:url value="/admin/statistic/testStatistic"/>"
+                       class="btn btn-primary text-light"><spring:message code="testStatistics"/></a>
                 </div>
             </div>
             <div class="row m-2">
                 <div class="col-sm-12">
-                    <%--                    TODO userId security--%>
-                    <a href="<c:url value="/admin/statistic/questionStatistic"/>" class="btn btn-primary text-light">Статистика
-                        по вопросам</a>
+                    <a href="<c:url value="/admin/statistic/questionStatistic"/>"
+                       class="btn btn-primary text-light"><spring:message code="questionStatistics"/></a>
                 </div>
             </div>
             <div class="row m-2">
                 <div class="col-sm-12">
-                    <%--                    TODO userId security--%>
-                    <a href="<c:url value="/admin/statistic/usersStatistic"/>" class="btn btn-primary text-light">Статистика
-                        по пользовотелям </a>
+                    <a href="<c:url value="/admin/statistic/usersStatistic"/>"
+                       class="btn btn-primary text-light"><spring:message code="usersStatistics"/> </a>
                 </div>
             </div>
             <div class="row m-2">
                 <div class="col-sm-12">
-                    <%--                    TODO userId security--%>
-                    <a href="<c:url value="/admin"/>" class="btn btn-primary text-light">Назад </a>
+                    <a href="<c:url value="/admin"/>" class="btn btn-primary text-light"><spring:message
+                            code="back"/> </a>
                 </div>
             </div>
         </div>

@@ -1,6 +1,5 @@
 package com.service.user;
 
-import com.model.Link;
 import com.model.User;
 
 import java.util.List;
@@ -17,6 +16,4 @@ public interface UserService {
     User getUserById(Integer id);
 
     List<User> getAllUser();
-
-    void createUser(User user);
 }
