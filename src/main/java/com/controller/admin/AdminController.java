@@ -1,6 +1,8 @@
 package com.controller.admin;
 
 import com.dto.StatisticDto;
+import com.dto.TestDto;
+import com.mapper.TestMapper;
 import com.model.Role;
 import com.model.Test;
 import com.model.User;
@@ -9,6 +11,7 @@ import com.service.test.TestService;
 import com.service.topic.TopicService;
 import com.service.user.UserService;
 import com.service.statistic.statisticDto.StatisticDtoService;
+import com.validator.TestFormValidator;
 import com.validator.UserRegistrationValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,7 +19,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -28,8 +30,11 @@ import java.util.stream.Collectors;
 public class AdminController {
 
     @Autowired
-    @Qualifier("userRegistrationValidator")
+//    @Qualifier("userRegistrationValidator")
     private UserRegistrationValidator userRegistrationValidator;
+
+    @Autowired
+    private TestFormValidator testFormValidator;
 
     @Autowired
     private StatisticDtoService statisticDtoService;
@@ -44,7 +49,9 @@ public class AdminController {
     private TopicService topicServiceImp;
 
     @Autowired
-    private TestService testRepository;
+    private TestService testService;
+    @Autowired
+    private TestMapper testMapper;
 
     @GetMapping()
     public String welcomeAdmin() {
@@ -64,6 +71,7 @@ public class AdminController {
         userRegistrationValidator.validate(user, bindingResult);
         System.out.println(role);
         if (bindingResult.hasErrors()) {
+            //TODO Разобраться здесь, может нужно в модель ложить что бы после return были заполнены поля формы регистрации
             return "admin/createUser";
         } else {
             List<Role> roles = role.stream()
@@ -79,22 +87,21 @@ public class AdminController {
     @GetMapping("/createTest")
     public String createTest(Model model) {
         model.addAttribute("topics", topicServiceImp.getAll());
-        model.addAttribute("tests", testRepository.getAllTests());
+        model.addAttribute("tests", testService.getAllTests());
         return "admin/createTest";
     }
 
     @PostMapping("/createTest")
- public String createTest(
-            @RequestParam String topic,
-            @RequestParam String nameTest,
-            @RequestParam String descriptionTest
-   ) {
-        Test newTest = new Test();
-        newTest.setName(nameTest);
-        newTest.setDescription(descriptionTest);
-        newTest.setTopic(topicServiceImp.getByName(topic));
-        System.out.println(newTest);
-        testRepository.create(newTest);
+    public String createTest(
+            @ModelAttribute @Validated TestDto test,
+            BindingResult bindingResult) {
+        testFormValidator.validate(test, bindingResult);
+        if (bindingResult.hasErrors()) {
+            //TODO Разобраться здесь, может нужно в модель ложить что бы после return были заполнены поля формы регистрации
+            return "admin/createTest";
+        } else {
+            testService.create(testMapper.toTest(test));
+        }
         return "redirect:/admin";
     }
 

@@ -21,4 +21,5 @@ public interface TestService {
 
     void deleteById(int id);
 
+    Test getByName(String name);
 }

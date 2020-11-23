@@ -69,6 +69,11 @@ public class TestServiceImpl implements TestService {
         testRepository.deleteById(id);
     }
 
+    @Override
+    public Test getByName(String name) {
+        return testRepository.findByName(name);
+    }
+
 
     private PageRequest createPageRequest(int page, int size, String order, String... params) {
         return PageRequest.of(page, size, Sort.Direction.fromString(order), params);

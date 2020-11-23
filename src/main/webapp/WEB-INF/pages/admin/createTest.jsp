@@ -42,18 +42,21 @@
                 <div class="col-sm-12">
                     <form action="/admin/createTest" method="post">
                         <p>
-                            <input type="text" required list="topics" placeholder="choose topic" id="topic"
-                                   name="topic">
-                            <datalist id="topics" name="nameTopic">
+                            <select name="topicId">
+                                <c:forEach items="${topics}" var="topic">
+                                    <option value="${topic.topicId}"> ${topic.name}</option>
+                                </c:forEach>
+                            </select>
+                           <%-- <input type="text" required list="topics" placeholder="choose topic" name="topic">
+                            <datalist id="topics">
                                 <c:forEach items="${topics}" var="topic">
                                     <option value="${topic.name}"/>
                                 </c:forEach>
-                            </datalist>
+                            </datalist>--%>
                         </p>
 
                         <p>
-                            <input type="text" required list="tests" placeholder="input a new tests name" id="nameTest"
-                                   name="nameTest">
+                            <input type="text" required list="tests" placeholder="input a new tests name" name="name">
                             <datalist id="tests">
                                 <c:forEach items="${tests}" var="test">
                                     <option value="${test.name}"/>
@@ -61,7 +64,7 @@
                             </datalist>
                         </p>
                         <p><textarea placeholder="<spring:message code="description"/>"
-                                     name="descriptionTest"></textarea></p>
+                                     name="description"></textarea></p>
                         <button type="submit" class="btn btn-primary text-light"><spring:message
                                 code="create"/></button>
                     </form>

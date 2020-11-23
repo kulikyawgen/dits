@@ -17,4 +17,6 @@ public interface TestRepository extends JpaRepository<Test, Integer> {
     Page<Test> findAll(Pageable pageable);
 
     List<Test> findAll();
+
+    Test findByName(String name);
 }

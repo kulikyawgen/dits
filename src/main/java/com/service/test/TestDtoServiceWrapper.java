@@ -43,4 +43,8 @@ public class TestDtoServiceWrapper {
     public void deleteById(int id) {
         testService.deleteById(id);
     }
+
+    public TestDto getByName(String name){
+        return testMapper.toTestDto(testService.getByName(name));
+    }
 }
