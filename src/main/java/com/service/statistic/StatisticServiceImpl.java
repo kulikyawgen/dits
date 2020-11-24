@@ -10,8 +10,13 @@ import java.util.List;
 
 @Service
 public class StatisticServiceImpl implements StatisticService {
+
+    private final StatisticRepo staticRepo;
+
     @Autowired
-    private StatisticRepo staticRepo;
+    public StatisticServiceImpl(StatisticRepo staticRepo) {
+        this.staticRepo = staticRepo;
+    }
 
     @Override
     public List<Statistic> getAllByDate(Date date) {

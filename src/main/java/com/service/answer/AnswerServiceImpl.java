@@ -39,8 +39,14 @@ public class AnswerServiceImpl implements AnswerService {
      * Метод удаляет конкретный отве по id
      */
     @Override
-    public void deleteAnswerById(int id) {
-        answerRepository.deleteAnswerById(id);
+    public boolean deleteAnswerById(int id) {
+        if(answerRepository.findAnswerById(id)==null){
+            return false;
+        }else {
+            answerRepository.deleteAnswerById(id);
+            return true;
+        }
+
     }
 
     /**

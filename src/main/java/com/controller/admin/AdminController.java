@@ -60,7 +60,7 @@ public class AdminController {
         model.addAttribute("tests", testRepository.getAllTests());
         return "admin/createTest";
     }
-
+//TODO написать документацию для всех методов
     @PostMapping("/createTest")
     public String createTest(@RequestParam String topic,
                              @RequestParam String nameTest,

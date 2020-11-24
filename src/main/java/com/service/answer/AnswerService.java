@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface AnswerService {
     Answer addAnswer(Answer newAnswer);
-    void deleteAnswerById(int id);
+    boolean deleteAnswerById(int id);
     void updateAnswer(Answer updatedAnswer);
     Answer getAnswerById(int id);
     List<Answer> getAllAnswers();

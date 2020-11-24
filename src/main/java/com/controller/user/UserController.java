@@ -3,11 +3,11 @@
 */
 package com.controller.user;
 import com.controller.BaseController;
-import com.controller.staticstic.PersonalStatisticService;
-import com.dto.QuestionDto;
+import com.service.statistic.PersonalStatisticService;
 import com.model.*;
-import com.service.answer.AnswerService;
 import com.service.question.QuestionDtoService;
+import com.service.statistic.StatisticAfterService;
+import com.service.statistic.StatisticAfterTestServiceImpl;
 import com.service.statistic.StatisticService;
 import com.service.test.TestService;
 import com.service.topic.TopicService;
@@ -30,20 +30,24 @@ import java.util.*;
 public class UserController extends BaseController {
 
     private final TestService testService;
-    private final AnswerService answerService;
     private final StatisticService statisticService;
     private final QuestionDtoService questionDtoService;
     private final TopicService topicService;
     private final PersonalStatisticService personalStatisticService;
+    private final StatisticAfterService statisticAfterService;
 
     @Autowired
-    public UserController(TestService testService, AnswerService answerService, StatisticService statisticService, QuestionDtoService questionDtoService, TopicService topicService, PersonalStatisticService personalStatisticService) {
+    public UserController(TestService testService,
+                          StatisticService statisticService,
+                          QuestionDtoService questionDtoService,
+                          TopicService topicService,
+                          PersonalStatisticService personalStatisticService, StatisticAfterTestServiceImpl statisticAfterTestService, StatisticAfterService statisticAfterService) {
         this.testService = testService;
-        this.answerService = answerService;
         this.statisticService = statisticService;
         this.questionDtoService = questionDtoService;
         this.topicService = topicService;
         this.personalStatisticService = personalStatisticService;
+        this.statisticAfterService = statisticAfterService;
     }
 
     /**
@@ -76,7 +80,7 @@ public class UserController extends BaseController {
      */
     @GetMapping("/statistic")
     public String statisticByUser(Model model){
-        model.addAttribute("statistics",personalStatisticService.getPersonalStatistic());
+        model.addAttribute("statistics", personalStatisticService.getPersonalStatistic(getCurrentUser().getId()));
         return "/user/userStatistic/userStatistic";
     }
 
@@ -134,9 +138,25 @@ public class UserController extends BaseController {
             session.removeAttribute("passingTest");
             session.removeAttribute("answersMap");
 
-            return "redirect:/statistic/test/final";
+            return "redirect:/user/test/final";
         }
         return "/user/passingTest/runningTest";
+    }
+
+
+    /**
+     *
+     * @param model
+     * @return
+     *
+     * Данный метод принимает дату прохождения конкретного теста и передает на view модель статистики
+     * с информацией о прохождении теста залогированным юзером;
+     */
+    @GetMapping("/test/final")
+    public String getStatistic(Model model, HttpSession session){
+        statisticAfterService.getStatisticAfterTest(session,model);
+        session.removeAttribute("statistics");
+        return "/user/userStatistic/testStatistic";
     }
 
 

@@ -38,8 +38,13 @@ public class LinkServiceImpl implements LinkService {
      * Метод удаляет ссылку из базы данных по ее id
      */
     @Override
-    public void deleteLinkById(int id) {
-        linkRepository.deleteLinkById(id);
+    public boolean deleteLinkById(int id) {
+        if(linkRepository.findLinkById(id)==null){
+            return false;
+        }else {
+            linkRepository.deleteLinkById(id);
+            return true;
+        }
     }
 
     /**
