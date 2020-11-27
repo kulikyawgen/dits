@@ -8,7 +8,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class PersonalStatisticByTest {
+public class StatisticAfterTest {
 
     private String nameOfQuestion;
     private boolean correct;

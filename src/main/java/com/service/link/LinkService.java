@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface LinkService {
     Link addLink(Link newLink);
-    void deleteLinkById(int id);
+    boolean deleteLinkById(int id);
     void updateLink(Link updatedLink);
     Link getLinkById(int id);
     List<Link> getAllLink();

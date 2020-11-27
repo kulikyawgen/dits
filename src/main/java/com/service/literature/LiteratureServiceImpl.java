@@ -34,11 +34,17 @@ public class LiteratureServiceImpl implements LiteratureService {
     /**
      *
      * @param id
+     * @return boolean
      * Метод удаляет литературу из базы данных по id из параметра
      */
     @Override
-    public void deleteLiteratureById(int id) {
-        literatureRepository.deleteLiteratureById(id);
+    public boolean deleteLiteratureById(int id) {
+        if(literatureRepository.findLiteratureById(id)==null){
+            return false;
+        }else {
+            literatureRepository.deleteLiteratureById(id);
+            return true;
+        }
     }
 
     /**
