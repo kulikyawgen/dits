@@ -27,6 +27,9 @@
         crossorigin="anonymous"></script>
 
 <div class="container">
+    <div>
+        <a href="<c:url value="/logout"/>">Log out</a>
+    </div>
     <div class="row m-5">
         <div class="col text-center">
             <h1 class="text-primary"><%=title%>

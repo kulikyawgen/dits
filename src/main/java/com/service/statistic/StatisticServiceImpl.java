@@ -109,9 +109,7 @@ public class StatisticServiceImpl implements StatisticService {
 
     @Override
     public List<Statistic> addListOfStatistics(List<Statistic> statisticList) {
-        for (Statistic statistic : statisticList) {
-            this.addStatistic(statistic);
-        }
+        statisticList.forEach(this::addStatistic);
         return statisticList;
     }
 

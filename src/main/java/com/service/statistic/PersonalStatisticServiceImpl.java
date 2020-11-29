@@ -37,14 +37,9 @@ public class PersonalStatisticServiceImpl implements PersonalStatisticService {
             int numOfCorrect=0;
             int completed = 0;
             List<Statistic> statisticsByOneQuestion = statisticService.getStatisticsByQuestionIdAndUserId(statistic.getQuestion().getQuestionId(), userId);
-            for (Statistic statistic1 : statisticsByOneQuestion) {
-                if(statistic1.isCorrect()){
-                    numOfCorrect++;
-                }
-            }
+            numOfCorrect= (int) statisticsByOneQuestion.stream().filter(Statistic::isCorrect).count();
             completed=statisticsByOneQuestion.size();
             double percent = Math.round(((double)numOfCorrect/completed)*100);
-
 
             PersonalStatisticForUser psuModel = new PersonalStatisticForUser();
             psuModel.setFio(user.getFirstName()+" " + user.getLastName());

@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.Array;
+import java.util.*;
 
 @Service
 public class StatisticAfterTestServiceImpl implements StatisticAfterService {
@@ -37,9 +37,7 @@ public class StatisticAfterTestServiceImpl implements StatisticAfterService {
             pst.setCorrect(statistic.isCorrect());
             List<Literature> allLiteratureByQuestionId = literatureService.getAllLiteratureByQuestionId(statistic.getQuestion().getQuestionId());
             List<Link> allLinks = new ArrayList<>();
-            for (Literature literature : allLiteratureByQuestionId) {
-                allLinks.addAll(linkService.getAllLinkByLiteratureId(literature.getLiteratureId()));
-            }
+            allLiteratureByQuestionId.forEach((it)->allLinks.addAll(linkService.getAllLinkByLiteratureId(it.getLiteratureId())));
             pst.setLiterature(allLiteratureByQuestionId);
             pst.setLinkToLiterature(allLinks);
             if(statistic.isCorrect()){
