@@ -40,8 +40,9 @@ public class UserServiceImpTest {
     }
 
     @Test
-    public void findByLogin() {
+    public void should_return_User_after_findByLogin() {
         User fromService = userServiceImp.findByLogin(userLogin);
         assertEquals(user, fromService);
     }
+
 }
