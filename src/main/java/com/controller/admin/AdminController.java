@@ -1,20 +1,18 @@
 package com.controller.admin;
 
-import com.dto.StatisticDto;
+import com.model.StatisticViewForAdmin;
 import com.dto.TestDto;
 import com.mapper.TestMapper;
 import com.model.Role;
-import com.model.Test;
 import com.model.User;
 import com.service.role.RoleService;
 import com.service.test.TestService;
 import com.service.topic.TopicService;
 import com.service.user.UserService;
-import com.service.statistic.statisticDto.StatisticDtoService;
+import com.service.statistic.StatisticViewForAdminService;
 import com.validator.TestFormValidator;
 import com.validator.UserRegistrationValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,14 +28,13 @@ import java.util.stream.Collectors;
 public class AdminController {
 
     @Autowired
-//    @Qualifier("userRegistrationValidator")
     private UserRegistrationValidator userRegistrationValidator;
 
     @Autowired
     private TestFormValidator testFormValidator;
 
     @Autowired
-    private StatisticDtoService statisticDtoService;
+    private StatisticViewForAdminService statisticDtoService;
 
     @Autowired
     private UserService userServiceImp;
@@ -69,7 +66,6 @@ public class AdminController {
                              BindingResult bindingResult,
                              @RequestParam("role") ArrayList<String> role) {
         userRegistrationValidator.validate(user, bindingResult);
-        System.out.println(role);
         if (bindingResult.hasErrors()) {
             //TODO Разобраться здесь, может нужно в модель ложить что бы после return были заполнены поля формы регистрации
             return "admin/createUser";
@@ -112,21 +108,21 @@ public class AdminController {
 
     @GetMapping("/statistic/usersStatistic")
     public String usersStatistic(Model model) {
-        List<StatisticDto> listToView = statisticDtoService.getUserTestStatisticList();
+        List<StatisticViewForAdmin> listToView = statisticDtoService.getUserTestStatisticList();
         model.addAttribute("listToView", listToView);
         return "/admin/statistics/usersStatistic";
     }
 
     @GetMapping("/statistic/questionStatistic")
     public String questionStatistic(Model model) {
-        List<StatisticDto> questionStatisticList = statisticDtoService.getQuestionStatisticList();
+        List<StatisticViewForAdmin> questionStatisticList = statisticDtoService.getQuestionStatisticList();
         model.addAttribute("statistics", questionStatisticList);
         return "/admin/statistics/questionStatistic";
     }
 
     @GetMapping("/statistic/testStatistic")
     public String testStatistic(Model model) {
-        List<StatisticDto> testStatisticList = statisticDtoService.getTestStatisticList();
+        List<StatisticViewForAdmin> testStatisticList = statisticDtoService.getTestStatisticList();
         model.addAttribute("testStat", testStatisticList);
         return "/admin/statistics/testStatistic";
     }

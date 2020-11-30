@@ -1,9 +1,8 @@
-package com.service.statistic.statisticDto;
+package com.service.statistic;
 
-import com.dto.StatisticDto;
+import com.model.StatisticViewForAdmin;
 import com.model.*;
 import com.service.question.QuestionService;
-import com.service.statistic.StatisticService;
 import com.service.test.TestService;
 import com.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ import java.util.List;
  * @author EKulik
  */
 @Service
-public class StatisticDtoServiceImpl implements StatisticDtoService {
+public class StatisticViewForAdminServiceImpl implements StatisticViewForAdminService {
     @Autowired
     private TestService testService;
 
@@ -33,12 +32,13 @@ public class StatisticDtoServiceImpl implements StatisticDtoService {
     /**
      * Метотод получения статистик по вопросам, т.е сколько раз был пройден определенный вопрос и
      * процент правильных ответов.
+     *
      * @return лист DTOстатистик
      */
     @Override
-    public List<StatisticDto> getQuestionStatisticList() {
-        List<StatisticDto> questionList = new ArrayList<>();
-        StatisticDto viewStatistic;
+    public List<StatisticViewForAdmin> getQuestionStatisticList() {
+        List<StatisticViewForAdmin> questionList = new ArrayList<>();
+        StatisticViewForAdmin viewStatistic;
         List<Question> allQuestion = questionService.getAllQuestion();
         for (Question question : allQuestion) {
             viewStatistic = getQuestionInfo(question);
@@ -50,66 +50,75 @@ public class StatisticDtoServiceImpl implements StatisticDtoService {
     }
 
     /**
-     *Метод получения статистики по вопросу
-     * @see StatisticDtoServiceImpl getQuestionStatisticList()
+     * Метод получения статистики по вопросу
+     *
      * @param question
      * @return DTO статистики
+     * @see StatisticViewForAdminServiceImpl getQuestionStatisticList()
      */
     @Override
-    public StatisticDto getQuestionInfo(Question question) {
-        StatisticDto statisticDto = null;
+    public StatisticViewForAdmin getQuestionInfo(Question question) {
+        StatisticViewForAdmin statisticViewForAdmin = null;
         List<Statistic> allStatisticByQuestionId = statisticService.getAllStatisticByQuestionId(question.getQuestionId());
         if (!allStatisticByQuestionId.isEmpty()) {
             countPercentOfTrue(allStatisticByQuestionId);
-            statisticDto = new StatisticDto();
-            statisticDto.setName(question.getDescription());
-            statisticDto.setCountCompleted(allStatisticByQuestionId.size());
-            statisticDto.setPercent(countPercentOfTrue(allStatisticByQuestionId));
+            statisticViewForAdmin = new StatisticViewForAdmin();
+            statisticViewForAdmin.setName(question.getDescription());
+            statisticViewForAdmin.setCountCompleted(allStatisticByQuestionId.size());
+            statisticViewForAdmin.setPercent(countPercentOfTrue(allStatisticByQuestionId));
         }
-        return statisticDto;
+        return statisticViewForAdmin;
     }
+
     /**
      * Метод получения статистик по результатам прохождения тестов
-     * @return лист дто статистик*/
+     *
+     * @return лист дто статистик
+     */
     @Override
-    public List<StatisticDto> getTestStatisticList() {
-        List<StatisticDto> testInfoList = new ArrayList<>();
-        StatisticDto statisticDto;
+    public List<StatisticViewForAdmin> getTestStatisticList() {
+        List<StatisticViewForAdmin> testInfoList = new ArrayList<>();
+        StatisticViewForAdmin statisticViewForAdmin;
         List<Test> allTests = testService.getAllTests();
 //        TODO можно использовать стрим вместо цикла
         for (Test test : allTests) {
-            statisticDto = getTestInfo(test);
-            if (statisticDto != null) {
-                testInfoList.add(statisticDto);
+            statisticViewForAdmin = getTestInfo(test);
+            if (statisticViewForAdmin != null) {
+                testInfoList.add(statisticViewForAdmin);
             }
         }
-        testInfoList.sort(Comparator.comparing(StatisticDto::getName));
+        testInfoList.sort(Comparator.comparing(StatisticViewForAdmin::getName));
         return testInfoList;
     }
+
     /**
      * Метод получения статистик по результатам прохождения определенного теста
-     * @see StatisticDtoServiceImpl getTestStatisticList()
+     *
      * @param test
-     * @return лист дто статистик*/
+     * @return лист дто статистик
+     * @see StatisticViewForAdminServiceImpl getTestStatisticList()
+     */
     @Override
-    public StatisticDto getTestInfo(Test test) {
-        StatisticDto statisticDto;
+    public StatisticViewForAdmin getTestInfo(Test test) {
+        StatisticViewForAdmin statisticViewForAdmin;
         List<Statistic> allStatistic = statisticService.getFilteredStatisticByTestId(test.getTestId());
         if (!allStatistic.isEmpty()) {
             int numberOfQuestionInTest = test.getQuestions().size();
             int size = allStatistic.size();
-            statisticDto = new StatisticDto();
-            statisticDto.setName(test.getName());
-            statisticDto.setCountCompleted(size / numberOfQuestionInTest);
-            statisticDto.setPercent(countPercentOfTrue(allStatistic));
-        } else statisticDto = null;
-        return statisticDto;
+            statisticViewForAdmin = new StatisticViewForAdmin();
+            statisticViewForAdmin.setName(test.getName());
+            statisticViewForAdmin.setCountCompleted(size / numberOfQuestionInTest);
+            statisticViewForAdmin.setPercent(countPercentOfTrue(allStatistic));
+        } else statisticViewForAdmin = null;
+        return statisticViewForAdmin;
     }
-/**
- * Метод получения процента правильных ответов в списке статистики
- * @param statisticList
- * @return % правильных отвеветов в инт переменной
- * */
+
+    /**
+     * Метод получения процента правильных ответов в списке статистики
+     *
+     * @param statisticList
+     * @return % правильных отвеветов в инт переменной
+     */
     private int countPercentOfTrue(List<Statistic> statisticList) {
         int numOfList = statisticList.size();
         int numOfCorrect = 0;
@@ -120,13 +129,16 @@ public class StatisticDtoServiceImpl implements StatisticDtoService {
         }
         return (int) Math.round(((double) numOfCorrect) / numOfList * 100);
     }
-/**
- * Метод получения статистики по пользователям т.е сколько каждый пользователь прокходил определенный тест и % правильности
- * @return лист дто статистик */
+
+    /**
+     * Метод получения статистики по пользователям т.е сколько каждый пользователь прокходил определенный тест и % правильности
+     *
+     * @return лист дто статистик
+     */
     @Override
-    public List<StatisticDto> getUserTestStatisticList() {
-        StatisticDto statisticDto;
-        List<StatisticDto> userTestInfoList = new ArrayList<>();
+    public List<StatisticViewForAdmin> getUserTestStatisticList() {
+        StatisticViewForAdmin statisticViewForAdmin;
+        List<StatisticViewForAdmin> userTestInfoList = new ArrayList<>();
         List<User> allUser = userService.getAllUser();
         for (User user : allUser) {
             List<Integer> distinctTestByUser = statisticService.getDistinctTestByUser(user.getUserId());
@@ -142,12 +154,12 @@ public class StatisticDtoServiceImpl implements StatisticDtoService {
                         ;
                     }
                     avgPercent = avgPercent / statisticsGroupByDateWhereTestIdAndUserId.size();
-                    statisticDto = new StatisticDto();
-                    statisticDto.setLogin(user.getLogin());
-                    statisticDto.setName(testService.getOne(integer).getName());
-                    statisticDto.setCountCompleted(numOfCompleted);
-                    statisticDto.setPercent((int) avgPercent);
-                    userTestInfoList.add(statisticDto);
+                    statisticViewForAdmin = new StatisticViewForAdmin();
+                    statisticViewForAdmin.setLogin(user.getLogin());
+                    statisticViewForAdmin.setName(testService.getOne(integer).getName());
+                    statisticViewForAdmin.setCountCompleted(numOfCompleted);
+                    statisticViewForAdmin.setPercent((int) avgPercent);
+                    userTestInfoList.add(statisticViewForAdmin);
                 }
             }
         }
