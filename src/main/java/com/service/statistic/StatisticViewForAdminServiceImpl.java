@@ -33,7 +33,7 @@ public class StatisticViewForAdminServiceImpl implements StatisticViewForAdminSe
      * Метотод получения статистик по вопросам, т.е сколько раз был пройден определенный вопрос и
      * процент правильных ответов.
      *
-     * @return лист DTOстатистик
+     * @return лист статистик для отображения
      */
     @Override
     public List<StatisticViewForAdmin> getQuestionStatisticList() {
@@ -53,7 +53,7 @@ public class StatisticViewForAdminServiceImpl implements StatisticViewForAdminSe
      * Метод получения статистики по вопросу
      *
      * @param question
-     * @return DTO статистики
+     * @return статистика для отображения
      * @see StatisticViewForAdminServiceImpl getQuestionStatisticList()
      */
     @Override
@@ -73,7 +73,7 @@ public class StatisticViewForAdminServiceImpl implements StatisticViewForAdminSe
     /**
      * Метод получения статистик по результатам прохождения тестов
      *
-     * @return лист дто статистик
+     * @return лист статистик для отображения
      */
     @Override
     public List<StatisticViewForAdmin> getTestStatisticList() {
@@ -95,7 +95,7 @@ public class StatisticViewForAdminServiceImpl implements StatisticViewForAdminSe
      * Метод получения статистик по результатам прохождения определенного теста
      *
      * @param test
-     * @return лист дто статистик
+     * @return статистика для отображения
      * @see StatisticViewForAdminServiceImpl getTestStatisticList()
      */
     @Override
@@ -133,7 +133,7 @@ public class StatisticViewForAdminServiceImpl implements StatisticViewForAdminSe
     /**
      * Метод получения статистики по пользователям т.е сколько каждый пользователь прокходил определенный тест и % правильности
      *
-     * @return лист дто статистик
+     * @return лист статистик для отображения
      */
     @Override
     public List<StatisticViewForAdmin> getUserTestStatisticList() {
