@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface LiteratureService {
     Literature addLiterature(Literature newLiterature);
-    void deleteLiteratureById(int id);
+    boolean deleteLiteratureById(int id);
     void updateLiterature(Literature updatedLiterature);
     Literature getLiteratureById(int id);
     List<Literature> getAllLiterature();

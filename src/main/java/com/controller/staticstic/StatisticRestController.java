@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -65,8 +66,8 @@ public class StatisticRestController extends BaseController {
         statistic.setDate((Date) session.getAttribute("startTime"));
         statistic.setQuestion(questionService.getOne(questionId));
         statistic.setUser(userService.getUserById(getCurrentUser().getId()));
-
-            //        Checking for correct TODO check situation with many of correct answers
+        Collections.sort(truAnswersList);
+        Collections.sort(str);
         if(truAnswersList.equals(str)){
                 statistic.setCorrect(true);
             }else {

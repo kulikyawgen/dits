@@ -12,7 +12,6 @@ import java.util.List;
 
 @Repository
 public interface AnswerRepository extends JpaRepository<Answer,Integer> {
-
     @Query("delete from Answer where answerId=?1")
     void deleteAnswerById(int id);
 

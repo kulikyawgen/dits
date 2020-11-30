@@ -3,10 +3,11 @@
 */
 package com.controller.user;
 import com.controller.BaseController;
-import com.controller.staticstic.PersonalStatisticService;
-import com.dto.QuestionDto;
+import com.service.statistic.PersonalStatisticService;
 import com.model.*;
-import com.service.answer.AnswerService;
+import com.service.question.QuestionDtoService;
+import com.service.statistic.StatisticAfterService;
+import com.service.statistic.StatisticAfterTestServiceImpl;
 import com.service.statistic.StatisticService;
 import com.service.test.TestService;
 import com.service.topic.TopicService;
@@ -20,47 +21,49 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
+/**
+ * User controller отвечает за мапинг views с запросами касающихся части юзера:
+ * прохождение тестов, просмотр статистики после теста, общая статистика по вопросам.
+ */
 @Controller
 @RequestMapping(value = "/user")
 public class UserController extends BaseController {
 
     private final TestService testService;
-    private final AnswerService answerService;
     private final StatisticService statisticService;
+    private final QuestionDtoService questionDtoService;
     private final TopicService topicService;
     private final PersonalStatisticService personalStatisticService;
+    private final StatisticAfterService statisticAfterService;
 
     @Autowired
-    public UserController(TestService testService, AnswerService answerService, StatisticService statisticService, TopicService topicService, PersonalStatisticService personalStatisticService) {
+    public UserController(TestService testService,
+                          StatisticService statisticService,
+                          QuestionDtoService questionDtoService,
+                          TopicService topicService,
+                          PersonalStatisticService personalStatisticService, StatisticAfterTestServiceImpl statisticAfterTestService, StatisticAfterService statisticAfterService) {
         this.testService = testService;
-        this.answerService = answerService;
         this.statisticService = statisticService;
+        this.questionDtoService = questionDtoService;
         this.topicService = topicService;
         this.personalStatisticService = personalStatisticService;
+        this.statisticAfterService = statisticAfterService;
     }
 
+    /**
+     *
+     * @return view для главной станицы пользователя с ролью user
+     */
     @GetMapping("/main")
     public String getMainForUser(){
         return "/user/indexUser";
     }
 
-
-    @GetMapping("/test_run/{id}/{quest_num}")
-    public String questionsForTest(Model model, @PathVariable int id, @PathVariable int quest_num){
-        Test test = testService.getOne(id);
-        List<Answer> answers;
-        try {
-            answers = answerService.getAllAnswersByQuestionId(test.getQuestions().get(quest_num).getQuestionId());
-        }catch (IndexOutOfBoundsException exception){
-            return "/user/passingTest/finish";
-        }
-        model.addAttribute("test",test);
-        model.addAttribute("question",test.getQuestions().get(quest_num));
-        model.addAttribute("answers",answers);
-        model.addAttribute("numOfQuestion",quest_num);
-        return "/user/passingTest/runningTest";
-    }
-
+    /**
+     *
+     * @param model
+     * @return view с топиками
+     */
     @GetMapping("/topics")
     public String getAll(Model model) {
         model.addAttribute("topics",topicService.getPage(0,7,"ASC","name").getContent());
@@ -70,26 +73,36 @@ public class UserController extends BaseController {
     /**
      *
      * @param model
-     * @return
+     * @return view
      *
-     * Данный метод передает на view статистику для каждого пройденого теста для зологированного
+     * Данный метод передает на view статистику для каждого пройденого теста для залогированного
      * юзера;
      */
     @GetMapping("/statistic")
     public String statisticByUser(Model model){
-        model.addAttribute("statistics",personalStatisticService.getPersonalStatistic());
+        model.addAttribute("statistics", personalStatisticService.getPersonalStatistic(getCurrentUser().getId()));
         return "/user/userStatistic/userStatistic";
     }
 
     /**
+     *
+     * @param model
+     * @param topicId
+     * @return view
      * Данный метод возвращает представление со всеми тестами для конкретного топика по id
-     * */
+     */
     @GetMapping("/tests/{topicId}")
     public String getTests(Model model, @PathVariable int topicId){
         model.addAttribute("tests",testService.getByTopic(topicId,0,7,"ASC","name").getContent());
         return "/user/passingTest/testsList";
     }
 
+    /**
+     *
+     * @param model
+     * @param testId
+     * @return view с тестом и топиком для страницы старта конкретного теста
+     */
     @GetMapping("/test/{testId}")
     public String getOne(Model model, @PathVariable int testId) {
         Test test = testService.getOne(testId);
@@ -113,59 +126,37 @@ public class UserController extends BaseController {
     @GetMapping("/passing/{id}")
     public String passingTest(@PathVariable int id, Model model, HttpSession session){
         if(session.getAttribute("questions")==null){
-            questionsToSession(id, session);
+            questionDtoService.questionsToSession(id, session);
         }
-        List<QuestionDto> questionDtoList = (List<QuestionDto>) session.getAttribute("questions");
 //        Finding no answered question;
-        for (QuestionDto questionDto : questionDtoList) {
-            if (questionDto.isAnswered()){
-                continue;
-            }
-            model.addAttribute("question",questionDto);
-            break;
-        }
+        model.addAttribute("question",questionDtoService.findNoAnsweredQuestion(questionDtoService.getQuestionsFromSession(session)));
         if(model.getAttribute("question") == null){
 //        Saving all statistics from session to DB;
-            List<Statistic> statisticList = (List<Statistic>) session.getAttribute("statistics");
-            for (Statistic statistic : statisticList) {
-                statisticService.addStatistic(statistic);
-            }
+            statisticService.addListOfStatistics((List<Statistic>) session.getAttribute("statistics"));
 //           Cleaning attributes from session
             session.removeAttribute("questions");
             session.removeAttribute("passingTest");
             session.removeAttribute("answersMap");
-//           session.removeAttribute("startTime");
-//           session.removeAttribute("statistics");
 
-            return "redirect:/statistic/test/final";
+            return "redirect:/user/test/final";
         }
         return "/user/passingTest/runningTest";
     }
 
+
     /**
      *
-     * @param id
-     * @param session
-     * Данный метод вытягивает из базы данных тест, его вопросы и помещяет их в сессию.
-     * P.S. Используется при первом попадании в метод passingTest.
+     * @param model
+     * @return
+     *
+     * Данный метод принимает дату прохождения конкретного теста и передает на view модель статистики
+     * с информацией о прохождении теста залогированным юзером;
      */
-    public void questionsToSession(int id,HttpSession session){
-        Test test = testService.getOne(id);
-        Map<Integer,List<String>> answersMap = new HashMap<>();
-        List<Question> questions = test.getQuestions();
-        List<QuestionDto> questionDtoList = new ArrayList<>();
-//        Convert questions to dtoQuestion and adding to dtoList;
-        for (Question question : questions) {
-            QuestionDto questionDto = new QuestionDto();
-            questionDto = questionDto.convertToDto(question,answerService.getAllAnswersByQuestionId(question.getQuestionId()));
-            questionDtoList.add(questionDto);
-        }
-        session.setAttribute("questions",questionDtoList);
-        session.setAttribute("passingTest",test);
-        session.setAttribute("answersMap",answersMap);
-        session.setAttribute("userId", 21);
-        session.setAttribute("startTime",new Date(System.currentTimeMillis()));
-        session.setAttribute("statistics", new ArrayList<Statistic>());
+    @GetMapping("/test/final")
+    public String getStatistic(Model model, HttpSession session){
+        statisticAfterService.getStatisticAfterTest(session,model);
+        session.removeAttribute("statistics");
+        return "/user/userStatistic/testStatistic";
     }
 
 

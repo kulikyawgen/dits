@@ -28,6 +28,9 @@
         crossorigin="anonymous"></script>
 
 <div class="container">
+    <div>
+        <a href="<c:url value="/logout"/>">Log out</a>
+    </div>
     <div class="row m-5">
         <div class="col text-center">
             <h1 class="text-primary"><%=title%>
@@ -41,10 +44,10 @@
                  alt="logo">
         </div>
         <div class="col-sm-12 col-md-7 pl-4">
-                <h2>${topic.name}</h2>
-                <h3>${test.name}</h3>
-                <p>${test.description}</p>
-                <p>You have 30 minutes for this test</p>
+                <h2>You've chosen the test:</h2>
+                <h3>Topic: ${topic.name}</h3>
+                <h3>Test: ${test.name}</h3>
+                <p>About: ${test.description}</p>
                 <button onclick="myFunction(${test.testId})" style="text-align: center">Let's start</button>
         </div>
     </div>
