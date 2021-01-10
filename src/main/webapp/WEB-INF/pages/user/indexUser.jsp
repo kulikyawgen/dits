@@ -24,6 +24,9 @@
         crossorigin="anonymous"></script>
 
 <div class="container">
+    <div>
+        <a href="<c:url value="/logout"/>">Log out</a>
+    </div>
     <div class="row m-5">
         <div class="col text-center">
             <h1 class="text-primary"><%=title%>
@@ -39,12 +42,12 @@
         <div class="col-sm-12 col-md-7 pl-4">
             <div class="row m-2">
                 <div class="col-sm-12">
-                    <a href="<c:url value="/user/topics"/>" class="btn btn-primary text-light">Пройти тест</a>
+                    <a href="<c:url value="/user/topics"/>" class="btn btn-primary text-light">Pass test</a>
                 </div>
             </div>
             <div class="row m-2">
                 <div class="col-sm-12">
-                    <a href="<c:url value="/user/statistic"/>" class="btn btn-primary text-light">Статистика</a>
+                    <a href="<c:url value="/user/statistic"/>" class="btn btn-primary text-light">Statistic</a>
                 </div>
             </div>
         </div>

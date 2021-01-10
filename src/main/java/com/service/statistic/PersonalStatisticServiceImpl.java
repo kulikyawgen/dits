@@ -1,13 +1,11 @@
 /*
 @author Andrei Gorevoi
 */
-package com.controller.staticstic;
+package com.service.statistic;
 
-import com.controller.BaseController;
 import com.model.PersonalStatisticForUser;
 import com.model.Statistic;
 import com.model.User;
-import com.service.statistic.StatisticService;
 import com.service.test.TestService;
 import com.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class PersonalStatisticService extends BaseController {
+public class PersonalStatisticServiceImpl implements PersonalStatisticService {
 
     private final StatisticService statisticService;
     private final TestService testService;
@@ -25,28 +23,23 @@ public class PersonalStatisticService extends BaseController {
 
 
     @Autowired
-    public PersonalStatisticService(StatisticService statisticService, TestService testService, UserService userService) {
+    public PersonalStatisticServiceImpl(StatisticService statisticService, TestService testService, UserService userService) {
         this.statisticService = statisticService;
         this.testService = testService;
         this.userService = userService;
     }
 
-    public List<PersonalStatisticForUser> getPersonalStatistic(){
-        List<Statistic> groupedStatistics = statisticService.getStatisticByUserIdGroupByDQuestionId(getCurrentUser().getId());
+    public List<PersonalStatisticForUser> getPersonalStatistic(int userId){
+        List<Statistic> groupedStatistics = statisticService.getStatisticByUserIdGroupByDQuestionId(userId);
         List<PersonalStatisticForUser> psu = new ArrayList<>();
-        User user = userService.getUserById(getCurrentUser().getId());
+        User user = userService.getUserById(userId);
         for (Statistic statistic : groupedStatistics) {
             int numOfCorrect=0;
             int completed = 0;
-            List<Statistic> statisticsByOneQuestion = statisticService.getStatisticsByQuestionIdAndUserId(statistic.getQuestion().getQuestionId(), getCurrentUser().getId());
-            for (Statistic statistic1 : statisticsByOneQuestion) {
-                if(statistic1.isCorrect()){
-                    numOfCorrect++;
-                }
-            }
+            List<Statistic> statisticsByOneQuestion = statisticService.getStatisticsByQuestionIdAndUserId(statistic.getQuestion().getQuestionId(), userId);
+            numOfCorrect= (int) statisticsByOneQuestion.stream().filter(Statistic::isCorrect).count();
             completed=statisticsByOneQuestion.size();
             double percent = Math.round(((double)numOfCorrect/completed)*100);
-
 
             PersonalStatisticForUser psuModel = new PersonalStatisticForUser();
             psuModel.setFio(user.getFirstName()+" " + user.getLastName());

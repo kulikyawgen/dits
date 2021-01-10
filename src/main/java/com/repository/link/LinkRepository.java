@@ -12,7 +12,6 @@ import java.util.List;
 
 @Repository
 public interface LinkRepository extends JpaRepository<Link,Integer> {
-
     @Query("delete from Link where linkId=?1")
     void deleteLinkById(int id);
 

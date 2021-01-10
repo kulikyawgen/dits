@@ -1,27 +1,20 @@
 package com.controller;
 
-import com.service.answer.AnswerService;
-import com.service.test.TestService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 @Controller
 @RequestMapping("/")
 public class MainController {
-    private final TestService testService;
-    private final AnswerService answerService;
 
-    @Autowired
-    public MainController(TestService testService, AnswerService answerService) {
-        this.testService = testService;
-        this.answerService = answerService;
-    }
 
     @GetMapping("/")
     public String getIndexPage() {
@@ -60,8 +53,23 @@ public class MainController {
         if(authorities.size()==3){
             return "/indexAll";
         }
+
         return null;
+
     }
 
+    @GetMapping("/login")
+    public String getLogin(@RequestParam(required = false) String error, Model model){
+        if(error==null){
+            return "login";
+        }
+        model.addAttribute("error","error");
+        return "login";
+    }
+    @GetMapping("/registration")
+    public String registration(){
+        return "redirect:/login";
+
+    }
 
 }

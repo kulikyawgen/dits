@@ -12,7 +12,6 @@ import java.util.List;
 
 @Repository
 public interface LiteratureRepository extends JpaRepository<Literature,Integer> {
-
     @Query("delete from Literature where literatureId=?1")
     void deleteLiteratureById(int id);
 
